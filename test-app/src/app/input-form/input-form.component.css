@@ -1,0 +1,38 @@
+.card {
+  width: 30%;
+  margin: auto;
+}
+
+.card-body {
+  text-align: center;
+}
+
+.custom-select {
+  width: 90%;
+}
+
+/* ----- SCREEN SIZE BASED OPERATIONS  ----- */
+
+/* Mobile Devices */
+@media only screen and (max-width: 500px) {
+  /*Card width adjustment*/
+  .card {
+    width: 100%;
+  }
+}
+
+/* Tablets */
+@media only screen and (min-width: 501px) and (max-width: 1025px) {
+  /*Card width adjustment*/
+  .card {
+    width: 80%;
+  }
+}
+
+/* Lower Res Desktop - HD*/
+@media only screen and (min-width: 1026px) and (max-width: 1300px) {
+  /*Card width adjustment*/
+  .card {
+    width: 40%;
+  }
+}
