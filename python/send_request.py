@@ -1,7 +1,8 @@
-import pickle as p
+import requests
+import json
 
-modelfile = 'model.pickle'
-model = p.load(open(modelfile, 'rb'))
+url = 'http://localhost:5000/api/'
+
 
 house_to_value = [
     # House features
@@ -74,17 +75,12 @@ house_to_value = [
     0       # West Terrence
 ]
 
-# scikit-learn assumes you want to predict the values for lots of houses at once, so it expects an array.
-# We just want to look at a single house, so it will be the only item in our array.
-homes_to_value = [
-    house_to_value
-]
 
-# Run the model and make a prediction for each house in the homes_to_value array
-predicted_home_values = model.predict(homes_to_value)
 
-# Since we are only predicting the price of one house, just look at the first prediction returned
-predicted_value = predicted_home_values[0]
 
-print("This house has an estimated value of ${:,.2f}".format(predicted_value))
-
+data = [house_to_value]
+j_data = json.dumps(data)
+print(j_data)
+headers = {'content-type': 'application/json', 'Accept-Charset': 'UTF-8'}
+r = requests.post(url, data=j_data, headers=headers)
+print(r, r.text)
