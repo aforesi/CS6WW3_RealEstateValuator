@@ -1,0 +1,23 @@
+.Calculator {
+  margin: 20px auto;
+  width: 80%;
+  text-align: center;
+}
+
+.ResultContainer {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  margin-top: 15px;
+  max-width: 500px;
+  margin: 10px auto;
+  border: 1px solid #ccc;
+  padding: 20px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  background-color: #f4f4f4;
+}
+
+form {
+  background-color: #f4f4f4;
+}

@@ -1,15 +1,20 @@
 import React from "react";
-import TestForm from "./Form";
+import Layout from "./Components/Layout/Layout";
+import { Route, Switch } from "react-router-dom";
+import Calculator from "./Components/Calculator/Calculator";
+import LandingPage from "./Components/LandingPage/LandingPage";
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>Hello World</p>
-      </header>
-      <TestForm />
+      <Layout>
+        <Switch>
+          <Route path="/calculator" component={Calculator} />
+          <Route path="/" component={LandingPage} />
+        </Switch>
+      </Layout>
     </div>
   );
-}
+};
 
 export default App;

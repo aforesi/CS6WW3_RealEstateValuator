@@ -66,7 +66,7 @@ export default styled.div`
       margin: 5px;
       & > label {
         color: #333;
-        width: 110px;
+        width: 200px;
         font-size: 1em;
         line-height: 32px;
       }
@@ -114,5 +114,17 @@ export default styled.div`
       box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.2);
       padding: 20px;
     }
+  }
+  .resultContainer {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    margin-top: 15px;
+    max-width: 500px;
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
   }
 `;
