@@ -1,4 +1,0 @@
-Charcoal: #373737
-Paper: #F4F4F4
-Silk: DCD0C0
-Pale Gold: #C0B283

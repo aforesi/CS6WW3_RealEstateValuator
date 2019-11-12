@@ -2,10 +2,10 @@ from flask import Flask, request, redirect, url_for, flash, jsonify
 import numpy as np
 import pickle as p
 import json
-# from flask_cors import CORS
+from flask_cors import CORS
 
 app = Flask(__name__)
-# CORS(app)
+CORS(app)
 
 
 @app.route('/api/', methods=['POST'])
