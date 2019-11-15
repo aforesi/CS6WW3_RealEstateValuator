@@ -17,18 +17,19 @@ const Calculator = props => {
       <h1>Calculator</h1>
       <Styles>
         <Form
-        initialValues={{ 
-          fireplace: false,
-          pool: false,
-          centralHeating: false,
-          centralCooling: false
-        }}
+          initialValues={{
+            fireplace: false,
+            pool: false,
+            centralHeating: false,
+            centralCooling: false
+          }}
           onSubmit={async values => {
             axios
-              .post("http://localhost:5000/api/", { ...values })
+              .post("http://localhost:5000/calculator/", { ...values })
               .then(response => {
                 setValue(response.data);
                 setSubmitted(true);
+                console.log(response);
               })
               .catch(error => {
                 console.log(error);
@@ -146,11 +147,7 @@ const Calculator = props => {
               </div>
               <div>
                 <label>Garage Type</label>
-                <Field
-                  name="garageType"
-                  component="select"
-                  placeholder=""
-                >
+                <Field name="garageType" component="select" placeholder="">
                   <option value="default">Select...</option>
                   <option value="attached">Attached</option>
                   <option value="detached">Detatched</option>
@@ -178,7 +175,5 @@ const Calculator = props => {
     </div>
   );
 };
-
-
 
 export default Calculator;

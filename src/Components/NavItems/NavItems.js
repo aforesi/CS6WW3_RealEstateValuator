@@ -13,6 +13,12 @@ const NavItems = props => (
     <NavItem link="/map" exact>
       Map
     </NavItem>
+    <NavItem link="/register" exact>
+      Sign Up
+    </NavItem>
+    <NavItem link="/login" exact>
+      Login
+    </NavItem>
   </ul>
 );
 

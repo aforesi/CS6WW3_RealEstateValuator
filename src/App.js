@@ -1,9 +1,13 @@
 import React from "react";
-import Layout from "./Components/Layout/Layout";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Switch } from "react-router-dom";
+
+import Layout from "./Components/Layout/Layout";
 import Calculator from "./Components/Calculator/Calculator";
 import Map from "./Components/Map/Map";
 import LandingPage from "./Components/LandingPage/LandingPage";
+import Registeration from "./Components/Registeration/Registeration";
+import Login from "./Components/Login/Login";
 
 const App = () => {
   return (
@@ -12,6 +16,8 @@ const App = () => {
         <Switch>
           <Route path="/calculator" component={Calculator} />
           <Route path="/map" component={Map} />
+          <Route path="/register" component={Registeration} />
+          <Route path="/login" component={Login} />
           <Route path="/" component={LandingPage} />
         </Switch>
       </Layout>
