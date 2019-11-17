@@ -16,10 +16,10 @@ def makecalc():
         int(sys.argv[7]),   # total_sqft
         int(sys.argv[8]),    # garage_sqft
         0,      # carport_sqft
-        int(sys.argv[9]),   # has_fireplace
-        int(sys.argv[10]),   # has_pool
-        int(sys.argv[11]),   # has_central_heating
-        int(sys.argv[12]),   # has_central_cooling
+        booleanStringToInt(sys.argv[9]),   # has_fireplace
+        booleanStringToInt(sys.argv[10]),   # has_pool
+        booleanStringToInt(sys.argv[11]),   # has_central_heating
+        booleanStringToInt(sys.argv[12]),   # has_central_cooling
         # Garage type: Choose only one
         0,      # attached
         1,      # detached
@@ -79,12 +79,19 @@ def makecalc():
     prediction = np.array2string(model.predict(homes_to_value))
     return prediction.replace("[", "").replace("]", "")
 
+def booleanStringToInt(strBool):
+    if(strBool == 'false'):
+        return 0
+    else:
+        return 1
 
 if __name__ == '__main__':
-    modelfile = 'model.pickle'
-    model = p.load(open(modelfile, 'rb'))
-    # dataToSendBack = makecalc()
+    try:
+        model_file = 'model.pickle'
+    except FileReadException:
+        print ("Couldn't find or read the file")
+    model = p.load(open(model_file, 'rb'))
+    dataToSendBack = makecalc()
     # Send results to node
-	# print(str(dataToSendBack))
-    print("Hello from python")
+    print(str(dataToSendBack))
     sys.stdout.flush()

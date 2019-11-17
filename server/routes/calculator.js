@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { PythonShell } = require("python-shell");
 let Property = require("../models/property.model");
 
 router.route("/").post((req, res) => {
@@ -15,8 +16,8 @@ router.route("/").post((req, res) => {
   const pool = req.body.pool;
   const centralHeating = req.body.centralHeating;
   const centralCooling = req.body.centralCooling;
-  let pythonData;
 
+  // Could be useful if we want to save new property in DB
   const newProperty = new Property({
     yearBuilt,
     stories,
@@ -33,17 +34,7 @@ router.route("/").post((req, res) => {
     centralCooling
   });
 
-  // Call python function
-  //   runPy
-  //     .then(function(fromRunpy) {
-  //       console.log(fromRunpy.toString());
-  //       res.end(fromRunpy);
-  //     })
-  //     .catch(err => res.status(400).json("Error: " + err));
-
-  const spawn = require("child_process").spawn;
-  const pythonProcess = spawn("python", [
-    "./../../python/apiNode.py",
+  let data = [
     yearBuilt,
     stories,
     bedrooms,
@@ -56,32 +47,51 @@ router.route("/").post((req, res) => {
     pool,
     centralHeating,
     centralCooling
-  ]);
-  // Listen for results
-  pythonProcess.stdout.on("data", data => {
-    // Do something with the data returned from python script
-    pythonData = data.toString();
-    console.log(data);
-  });
+  ];
 
-  if (pythonData !== null) {
-    res.status(400).json("Error: Python couldn't return the data");
-  } else {
-    res.json(pythonData);
-  }
+  // Python shell arguments and other options
+  var options = {
+    mode: "text",
+    pythonPath: "python",
+    pythonOptions: ["-u"],
+    scriptPath: "B:\\6WW3_Final\\python",
+    args: data
+  };
+
+  // Call python script
+  PythonShell.run("apiNode.py", options, function(err, result) {
+    if (err) {
+      console.log(err);
+      res.status(400).json("Error: Python couldn't return any data");
+    }
+    // Result is an array consisting of messages collected during execution
+    console.log("Result: %j", result);
+    // Check if python returned
+    if (result === null) {
+      res.status(400).json("Error: Python returned null data");
+    } else {
+      res.json(result);
+    }
+  });
 });
 
-let runPy = new Promise(function(success, nosuccess) {
-  const { spawn } = require("child_process");
-  const pyprog = spawn("python", ["./../../python/apiNode.py"]);
+// router.route("/").get(callD_alembert);
 
-  pyprog.stdout.on("data", function(data) {
-    success(data);
-  });
+// var options = {
+//   mode: "text",
+//   pythonPath: "python",
+//   pythonOptions: ["-u"],
+//   scriptPath: "B:\\6WW3_Final\\python",
+//   args: [2010, 1, 1, 1, 0, 400, 500, 100, 0, 0, 0, 0]
+// };
 
-  pyprog.stderr.on("data", data => {
-    nosuccess(data);
-  });
-});
+// function callD_alembert(req, res) {
+//   PythonShell.run("apiNode.py", options, function(err, result) {
+//     if (err) throw err;
+//     // Result is an array consisting of messages collected during execution
+//     console.log("result: %j", result);
+//     res.json(result);
+//   });
+// }
 
 module.exports = router;
