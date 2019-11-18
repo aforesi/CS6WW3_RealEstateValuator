@@ -11,5 +11,6 @@
 @media (min-width: 500px) {
   .NavItems {
     flex-flow: row;
+    width: 100%;
   }
 }

@@ -6,7 +6,7 @@
 }
 
 .NavItem a {
-  color: #373737;
+  color: white;
   text-decoration: none;
   width: 100%;
   box-sizing: border-box;
@@ -19,6 +19,7 @@
   color: #f8bf05;
 }
 
+/*Desktop Only*/
 @media (min-width: 500px) {
   .NavItem {
     margin: 0;
@@ -39,7 +40,7 @@
   .NavItem a:active,
   .NavItem a.active {
     background-color: #202020;
-    border-bottom: 4px solid #f8bf05;
     color: white;
+    border-bottom: 4px solid #f8bf05;
   }
 }

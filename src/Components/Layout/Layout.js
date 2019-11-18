@@ -1,6 +1,6 @@
 import React from "react";
 import "./Layout.css";
-import ToolBar from "../ToolBar/ToolBar";
+import { ToolBar } from "../ToolBar/ToolBar";
 
 const Layoput = props => {
   return (
