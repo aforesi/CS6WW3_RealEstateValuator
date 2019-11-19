@@ -21,3 +21,26 @@
 form {
   background-color: #f4f4f4;
 }
+
+/*Desktop Only*/
+@media (min-width: 1000px) {
+  .MobileOnly {
+    display: none;
+  }
+}
+
+/*Desktop Only*/
+@media (max-width: 500px) {
+  .Calculator {
+    width: 100%;
+  }
+
+  .DesktopOnly {
+    display: none;
+  }
+
+  /*Make wider input fields when hover*/
+  .formField:hover > label {
+    display: none;
+  }
+}

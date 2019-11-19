@@ -7,3 +7,17 @@
 form {
   background-color: #f4f4f4;
 }
+
+/*Desktop Only*/
+@media (max-width: 500px) {
+  .Login {
+    margin: 20px auto;
+    width: 100%;
+    text-align: center;
+  }
+
+  /*Make wider input fields when hover*/
+  .formField:hover > label {
+    display: none;
+  }
+}

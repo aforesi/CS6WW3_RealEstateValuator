@@ -37,77 +37,86 @@ const Calculator = props => {
           }}
           render={({ handleSubmit, form, submitting, pristine }) => (
             <form onSubmit={handleSubmit}>
-              <div>
+              <div className="formField">
                 <label>Year Built</label>
                 <Field
                   name="yearBuilt"
                   component="input"
                   type="text"
-                  placeholder=""
+                  placeholder="Year Built"
                 />
               </div>
-              <div>
+              <div className="formField">
                 <label>Stories</label>
                 <Field
                   name="stories"
                   component="input"
                   type="text"
-                  placeholder=""
+                  placeholder="Stories"
                 />
               </div>
-              <div>
+              <div className="formField">
                 <label>Bedrooms</label>
                 <Field
                   name="bedrooms"
                   component="input"
                   type="text"
-                  placeholder=""
+                  placeholder="Bedrooms"
                 />
               </div>
-              <div>
+              <div className="formField">
                 <label>Full Bathrooms</label>
                 <Field
                   name="fullBathrooms"
                   component="input"
                   type="text"
-                  placeholder=""
+                  placeholder="Full Bathrooms"
                 />
               </div>
-              <div>
+              <div className="formField">
                 <label>Half Bathrooms</label>
                 <Field
                   name="halfBathrooms"
                   component="input"
                   type="text"
-                  placeholder=""
+                  placeholder="Half Bathrooms"
                 />
               </div>
-              <div>
+              <div className="formField">
                 <label>Livable Square Feet</label>
                 <Field
                   name="livableSquareFeet"
                   component="input"
                   type="text"
-                  placeholder=""
+                  placeholder="Livable Square Feet"
                 />
               </div>
-              <div>
+              <div className="formField">
                 <label>Total Square Feet</label>
                 <Field
                   name="totalSquareFeet"
                   component="input"
                   type="text"
-                  placeholder=""
+                  placeholder="Total Square Feet"
                 />
               </div>
-              <div>
+              <div className="formField">
                 <label>Garage Square Feet</label>
                 <Field
                   name="garageSquareFeet"
                   component="input"
                   type="text"
-                  placeholder=""
+                  placeholder="Garage Square Feet"
                 />
+              </div>
+              <div className="formField">
+                <label>Garage Type</label>
+                <Field name="garageType" component="select" placeholder="">
+                  <option value="default">Garage Type...</option>
+                  <option value="attached">Attached</option>
+                  <option value="detached">Detatched</option>
+                  <option value="none">None</option>
+                </Field>
               </div>
               <div>
                 <label>Fireplace</label>
@@ -144,15 +153,6 @@ const Calculator = props => {
                   type="checkbox"
                   placeholder=""
                 />
-              </div>
-              <div>
-                <label>Garage Type</label>
-                <Field name="garageType" component="select" placeholder="">
-                  <option value="default">Select...</option>
-                  <option value="attached">Attached</option>
-                  <option value="detached">Detatched</option>
-                  <option value="none">None</option>
-                </Field>
               </div>
 
               <div className="buttons">

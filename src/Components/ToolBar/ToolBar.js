@@ -1,15 +1,46 @@
 import React from "react";
+import { Navbar, Nav } from "react-bootstrap";
 import NavItems from "../NavItems/NavItems";
 import "./ToolBar.css";
 
-const ToolBar = () => (
-  <header className="ToolBar">
-    <p>menu</p>
-    <p id="Logo">LOGO</p>
-    <nav className="NavBar">
-      <NavItems />
-    </nav>
-  </header>
-);
+export class ToolBar extends React.Component {
+  constructor(props, context) {
+    super(props, context);
 
-export default ToolBar;
+    this.state = {
+      navExpanded: false
+    };
+
+    this.setNavExpanded = this.setNavExpanded.bind(this);
+    this.closeNav = this.closeNav.bind(this);
+  }
+
+  setNavExpanded(expanded) {
+    this.setState({ navExpanded: expanded });
+  }
+  closeNav() {
+    this.setState({ navExpanded: false });
+  }
+
+  render() {
+    return (
+      <header className="ToolBar">
+        <Navbar
+          bg="dark"
+          variant="dark"
+          expand="lg"
+          onToggle={this.setNavExpanded}
+          expanded={this.state.navExpanded}
+        >
+          <Navbar.Brand href="/">Real Estate Valuator</Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav" bg="dark" variant="dark">
+            <Nav className="mr-auto" onSelect={this.closeNav}>
+              <NavItems />
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
+      </header>
+    );
+  }
+}
