@@ -26,49 +26,49 @@ const Registeration = props => {
           }}
           render={({ handleSubmit, form, submitting, pristine }) => (
             <form onSubmit={handleSubmit}>
-              <div>
+              <div className="formField">
                 <label>Email</label>
                 <Field
                   name="email"
                   component="input"
                   type="email"
-                  placeholder=""
+                  placeholder="Email"
                 />
               </div>
-              <div>
+              <div className="formField">
                 <label>Password</label>
                 <Field
                   name="password"
                   component="input"
                   type="password"
-                  placeholder=""
+                  placeholder="Password"
                 />
               </div>
-              <div>
+              <div className="formField">
                 <label>Name</label>
                 <Field
                   name="name"
                   component="input"
                   type="text"
-                  placeholder=""
+                  placeholder="Name"
                 />
               </div>
-              <div>
+              <div className="formField">
                 <label>Last name</label>
                 <Field
                   name="lastName"
                   component="input"
                   type="text"
-                  placeholder=""
+                  placeholder="Last Name"
                 />
               </div>
-              <div>
+              <div className="formField">
                 <label>City</label>
                 <Field
                   name="city"
                   component="input"
                   type="text"
-                  placeholder=""
+                  placeholder="City"
                 />
               </div>
               <div>
