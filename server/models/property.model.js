@@ -16,7 +16,9 @@ const propertySchema = new Schema(
     fireplace: { type: Boolean, required: true },
     pool: { type: Boolean, required: true },
     centralHeating: { type: Boolean, required: true },
-    centralCooling: { type: Boolean, required: true }
+    centralCooling: { type: Boolean, required: true },
+    latitude: { type: Number, required: true },
+    longitude: { type: Number, required: true }
   },
   {
     timestamps: true

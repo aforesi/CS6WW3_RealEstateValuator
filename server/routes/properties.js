@@ -17,10 +17,12 @@ router.route("/add").post((req, res) => {
   const livableSquareFeet = Number(req.body.livableSquareFeet);
   const garageSquareFeet = Number(req.body.garageSquareFeet);
   const garageType = req.body.garageType;
-  const fireplace = req.body.fireplace;
-  const pool = req.body.pool;
-  const centralHeating = req.body.centralHeating;
-  const centralCooling = req.body.centralCooling;
+  const fireplace = req.body.fireplace === "true";
+  const pool = req.body.pool === "true";
+  const centralHeating = req.body.centralHeating === "true";
+  const centralCooling = req.body.centralCooling === "true";
+  const latitude = parseFloat(req.body.latitude);
+  const longitude = parseFloat(req.body.longitude);
 
   const newProperty = new Property({
     yearBuilt,
@@ -35,7 +37,9 @@ router.route("/add").post((req, res) => {
     fireplace,
     pool,
     centralHeating,
-    centralCooling
+    centralCooling,
+    latitude,
+    longitude
   });
 
   newProperty
