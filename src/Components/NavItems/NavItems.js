@@ -19,6 +19,15 @@ const NavItems = props => (
     <NavItem link="/login" exact>
       Login
     </NavItem>
+    <NavItem link="/properties" exact>
+      Properties
+    </NavItem>
+    <NavItem link="/users" exact>
+      Users
+    </NavItem>
+    <NavItem link="/add-property" exact>
+      Add Property
+    </NavItem>
   </ul>
 );
 
