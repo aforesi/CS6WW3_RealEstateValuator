@@ -45,6 +45,15 @@ const Registeration = props => {
                 />
               </div>
               <div className="formField">
+                <label>Password Again</label>
+                <Field
+                  name="password2"
+                  component="input"
+                  type="password"
+                  placeholder="Password Again"
+                />
+              </div>
+              <div className="formField">
                 <label>Name</label>
                 <Field
                   name="name"
