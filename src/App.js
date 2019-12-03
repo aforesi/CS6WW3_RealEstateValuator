@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import AuthContext from "./Context/auth-context";
 
@@ -29,6 +29,8 @@ class App extends Component {
   };
 
   render() {
+    // Render sign up and sign in pages only user doesn't have a token (not logged in)
+    // Render properties, add property and users pages only when user has a token
     return (
       <div className="App">
         <AuthContext.Provider
@@ -41,13 +43,20 @@ class App extends Component {
         >
           <Layout>
             <Switch>
+              {this.state.token && <Redirect from="/login" to="/" exact />}
               <Route path="/calculator" component={Calculator} />
               <Route path="/map" component={Map} />
-              <Route path="/register" component={Registeration} />
-              <Route path="/login" component={Login} />
-              <Route path="/properties" component={Properties} />
-              <Route path="/add-property" component={AddProperty} />
-              <Route path="/users" component={Users} />
+              {!this.state.token && (
+                <Route path="/register" component={Registeration} />
+              )}
+              {!this.state.token && <Route path="/login" component={Login} />}
+              {this.state.token && (
+                <Route path="/properties" component={Properties} />
+              )}
+              {this.state.token && (
+                <Route path="/add-property" component={AddProperty} />
+              )}
+              {this.state.token && <Route path="/users" component={Users} />}
               <Route path="/" component={LandingPage} />
             </Switch>
           </Layout>
