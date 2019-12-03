@@ -2,12 +2,17 @@ const express = require("express");
 const router = express.Router();
 const expressValidator = require("express-validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 let User = require("../models/user.model");
 
 router.use(expressValidator());
 
 // User list
 router.route("/").get((req, res) => {
+  // Check for authentication
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
   User.find()
     .then(users => res.json(users))
     .catch(err => res.status(400).json("Error: " + err));
@@ -38,7 +43,7 @@ router.route("/register").post((req, res) => {
 
   // Check for validation errors
   if (errors) {
-    res.json("Validation error: " + { errors: errors });
+    res.json({ error: true, message: "Validation error.", errors: errors });
   }
   // No validation errors
   else {
@@ -50,7 +55,7 @@ router.route("/register").post((req, res) => {
       }
       // User email already exist in DB
       if (data.length != 0) {
-        res.json("User email exist!");
+        res.json({ error: true, message: "This email already exists!" });
       }
     }).catch(err => res.status(400).json("Error: " + err));
 
@@ -70,6 +75,8 @@ router.route("/register").post((req, res) => {
         // Check for hashing errors
         if (err) {
           console.log("Password hashing error: " + err);
+          res.json({ error: true, message: "Password hashing error: " + err });
+          throw err;
         }
         // Change pw in newUser
         newUser.password = hash;
@@ -78,7 +85,7 @@ router.route("/register").post((req, res) => {
         // Save new user into DB and return the result
         newUser
           .save()
-          .then(() => res.json("User added!"))
+          .then(() => res.json({ message: "Successfully registered!" }))
           .catch(err => res.status(400).json("Error: " + err));
       });
     });
@@ -94,28 +101,47 @@ router.route("/login").post((req, res) => {
   console.log("User login " + userEmail);
   // Find in the DB with email
   let query = { email: userEmail };
-  User.findOne(query, function(err, data) {
+  User.findOne(query, function(err, user) {
     if (err) {
       console.log(err);
       return;
     }
     // Couldn't find it
-    if (!data) {
+    if (!user) {
       console.log("Login try: " + userEmail + " not exist!");
-      res.json("Email or password is not correct.");
+      res.json({ error: true, message: "Email or password is not correct." });
       return;
     }
     // Found it
     else {
       // Compare hashed passwords
-      bcrypt.compare(password, data.password, function(err, isMatch) {
+      bcrypt.compare(password, user.password, function(err, isMatch) {
         if (err) throw err;
-        if (isMatch) {
-          console.log("Login try: " + userEmail + " -> Success");
-          res.json("Succesfully logged in!");
-        } else {
+        // Wrong password
+        if (!isMatch) {
           console.log("Login try: " + userEmail + " wrong password!");
-          res.json("Email or password is not correct.");
+          res.json({
+            error: true,
+            message: "Email or password is not correct."
+          });
+        }
+        // Successful login
+        else {
+          console.log("Login try: " + userEmail + " -> Success");
+          // Generate JWT token
+          const token = jwt.sign(
+            { email: user.email },
+            "realEstateValuatorTokenKey",
+            { expiresIn: "1h" }
+          );
+          // Return results
+          res.json({
+            message: "Succesfully logged in!",
+            userId: user._id,
+            email: user.email,
+            authToken: token,
+            tokenExpiration: 1
+          });
         }
       });
     }

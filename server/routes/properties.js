@@ -1,13 +1,22 @@
 const router = require("express").Router();
+const isAuth = require("../auth/isAuth");
 let Property = require("../models/property.model");
 
+router.use(isAuth);
+
 router.route("/").get((req, res) => {
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
   Property.find()
     .then(properties => res.json(properties))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
 router.route("/add").post((req, res) => {
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
   const yearBuilt = Number(req.body.yearBuilt);
   const stories = Number(req.body.stories);
   const bedrooms = Number(req.body.bedrooms);
@@ -49,18 +58,27 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/:id").get((req, res) => {
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
   Property.findById(req.params.id)
     .then(property => res.json(property))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
 router.route("/:id").delete((req, res) => {
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
   Property.findByIdAndDelete(req.params.id)
     .then(() => res.json("Property deleted."))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
 router.route("/update/:id").post((req, res) => {
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
   Property.findById(req.params.id)
     .then(property => {
       property.username = req.body.username;

@@ -1,28 +1,48 @@
-/* eslint-disable jsx-a11y/accessible-emoji */
-import React from "react";
+import React, { useState } from "react";
 import { Form, Field } from "react-final-form";
-//import Form from "react-bootstrap/Form";
-//import Button from "react-bootstrap/Button";
 import axios from "axios";
+import AuthContext from "../../Context/auth-context";
 import Styles from "../../Styles";
 import "./Login.css";
 
 const Login = props => {
+  const contextType = AuthContext;
+
+  const [value, setValue] = useState(0);
+  const [className, setClassName] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+  const ResultContainer = () => <div className={className}>{value}</div>;
+
   return (
     <div className="Login">
       <h1>Sign In</h1>
       <Styles>
         <Form
-          initialValues={{
-            isRealEstateAgent: false
-          }}
           onSubmit={async values => {
             axios
               .post("http://localhost:5000/users/login/", { ...values })
               .then(response => {
+                if (response.data.error) {
+                  setClassName("errorContainer resultContainer");
+                  console.log("Error!");
+                } else {
+                  setClassName("successContainer resultContainer");
+                  console.log("Success!");
+                  if (response.data.authToken) {
+                    this.contextType.login(
+                      response.data.authToken,
+                      response.data.userId,
+                      response.data.tokenExpiration
+                    );
+                  }
+                }
+                setValue(response.data.message);
+                setSubmitted(true);
                 console.log(response);
               })
               .catch(error => {
+                setValue(error.data);
+                setSubmitted(true);
                 console.log(error);
               });
           }}
@@ -35,6 +55,7 @@ const Login = props => {
                   component="input"
                   type="email"
                   placeholder="Email"
+                  required
                 />
               </div>
               <div className="formField">
@@ -44,42 +65,23 @@ const Login = props => {
                   component="input"
                   type="password"
                   placeholder="Password"
+                  required
                 />
               </div>
+              {submitted ? <ResultContainer /> : undefined}
 
               <div className="buttons">
                 <button type="submit" disabled={submitting || pristine}>
                   Submit
                 </button>
               </div>
+
+              <div className="buttons">
+                <a href="../register">Don't have an account? Sign up here.</a>
+              </div>
             </form>
           )}
         />
-        {/* <Form
-          onSubmit={async values => {
-            axios
-              .post("http://localhost:5000/users/login/", { ...values })
-              .then(response => {
-                console.log(response);
-              })
-              .catch(error => {
-                console.log(error);
-              });
-          }}
-        >
-          <Form.Group controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
-          </Form.Group>
-
-          <Form.Group controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form> */}
       </Styles>
     </div>
   );

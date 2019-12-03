@@ -157,7 +157,10 @@ export default class AddProperty extends Component {
 
     axios
       .post("http://localhost:5000/properties/add", property)
-      .then(res => console.log(res.data));
+      .then(res => console.log(res.data))
+      .catch(error => {
+        console.log(error);
+      });
 
     window.location = "/properties";
   }
