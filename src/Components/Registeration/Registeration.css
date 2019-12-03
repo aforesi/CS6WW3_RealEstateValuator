@@ -8,6 +8,11 @@ form {
   background-color: #f4f4f4;
 }
 
+.ResultContainer {
+  text-align: center;
+  font-weight: bold;
+}
+
 /*Desktop Only*/
 @media (max-width: 500px) {
   .Register {

@@ -1,11 +1,16 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
-import React from "react";
+import React, { useState } from "react";
 import { Form, Field } from "react-final-form";
 import axios from "axios";
 import Styles from "../../Styles";
 import "./Registeration.css";
 
 const Registeration = props => {
+  const [value, setValue] = useState(0);
+  const [className, setClassName] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+  const ResultContainer = () => <div className={className}>{value}</div>;
+
   return (
     <div className="Register">
       <h1>Sign Up</h1>
@@ -18,9 +23,20 @@ const Registeration = props => {
             axios
               .post("http://localhost:5000/users/register/", { ...values })
               .then(response => {
+                if (response.data.error) {
+                  setClassName("errorContainer resultContainer");
+                  console.log("Error!");
+                } else {
+                  setClassName("successContainer resultContainer");
+                  console.log("Success!");
+                }
+                setValue(response.data.message);
+                setSubmitted(true);
                 console.log(response);
               })
               .catch(error => {
+                setValue(error.data);
+                setSubmitted(true);
                 console.log(error);
               });
           }}
@@ -33,6 +49,7 @@ const Registeration = props => {
                   component="input"
                   type="email"
                   placeholder="Email"
+                  required
                 />
               </div>
               <div className="formField">
@@ -42,6 +59,7 @@ const Registeration = props => {
                   component="input"
                   type="password"
                   placeholder="Password"
+                  required
                 />
               </div>
               <div className="formField">
@@ -51,6 +69,7 @@ const Registeration = props => {
                   component="input"
                   type="password"
                   placeholder="Password Again"
+                  required
                 />
               </div>
               <div className="formField">
@@ -89,6 +108,7 @@ const Registeration = props => {
                   placeholder=""
                 />
               </div>
+              {submitted ? <ResultContainer /> : undefined}
 
               <div className="buttons">
                 <button type="submit" disabled={submitting || pristine}>
