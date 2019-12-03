@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
+import AuthContext from "../../../Context/auth-context";
 import "./AddProperty.css";
 
 export default class AddProperty extends Component {
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
 
@@ -153,10 +156,14 @@ export default class AddProperty extends Component {
       longitude: this.state.longitude
     };
 
-    console.log(property);
+    const token = this.context.token;
 
     axios
-      .post("http://localhost:5000/properties/add", property)
+      .post("http://localhost:5000/properties/add", property, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
       .then(res => console.log(res.data))
       .catch(error => {
         console.log(error);
