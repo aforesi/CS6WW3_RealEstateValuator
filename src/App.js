@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 
 import AuthContext from "./Context/auth-context";
 
@@ -50,13 +50,12 @@ class App extends Component {
         >
           <Layout>
             <Switch>
-              {this.state.token && <Redirect from="/login" to="/" exact />}
               <Route path="/calculator" component={Calculator} />
               <Route path="/map" component={Map} />
               {!this.state.token && (
                 <Route path="/register" component={Registeration} />
               )}
-              {!this.state.token && <Route path="/login" component={Login} />}
+              <Route path="/login" component={Login} />
               {this.state.token && this.isAdmin() && (
                 <Route path="/properties" component={Properties} />
               )}
