@@ -32,7 +32,10 @@ export class ToolBar extends React.Component {
           onToggle={this.setNavExpanded}
           expanded={this.state.navExpanded}
         >
-          <Navbar.Brand href="/">Real Estate Valuator</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <img src="../../RealEstateValuator.png" alt="Logo" />
+            <span> Real Estate Valuator</span>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" bg="dark" variant="dark">
             <Nav className="mr-auto" onSelect={this.closeNav}>
