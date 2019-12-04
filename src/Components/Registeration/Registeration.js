@@ -33,6 +33,10 @@ const Registeration = props => {
                 setValue(response.data.message);
                 setSubmitted(true);
                 console.log(response);
+                // Redirect to login page in 2 sec
+                setTimeout(() => {
+                  props.history.push("/login");
+                }, 2000);
               })
               .catch(error => {
                 setValue(error.data);
