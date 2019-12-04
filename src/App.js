@@ -28,6 +28,12 @@ class App extends Component {
     this.setState({ token: null, userId: null });
   };
 
+  isAdmin = () => {
+    if (this.state.userId && this.state.userId === "5de42d840a6a691620da316b")
+      return true;
+    else return false;
+  };
+
   render() {
     // Render sign up and sign in pages only user doesn't have a token (not logged in)
     // Render properties, add property and users pages only when user has a token
@@ -38,7 +44,8 @@ class App extends Component {
             token: this.state.token,
             userId: this.state.userId,
             login: this.login,
-            logout: this.logout
+            logout: this.logout,
+            isAdmin: this.isAdmin
           }}
         >
           <Layout>
@@ -50,13 +57,15 @@ class App extends Component {
                 <Route path="/register" component={Registeration} />
               )}
               {!this.state.token && <Route path="/login" component={Login} />}
-              {this.state.token && (
+              {this.state.token && this.isAdmin() && (
                 <Route path="/properties" component={Properties} />
               )}
               {this.state.token && (
                 <Route path="/add-property" component={AddProperty} />
               )}
-              {this.state.token && <Route path="/users" component={Users} />}
+              {this.state.token && this.isAdmin() && (
+                <Route path="/users" component={Users} />
+              )}
               <Route path="/" component={LandingPage} />
             </Switch>
           </Layout>

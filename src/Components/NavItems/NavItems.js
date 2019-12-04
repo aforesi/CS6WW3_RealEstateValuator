@@ -2,6 +2,7 @@ import React from "react";
 import AuthContext from "../../Context/auth-context";
 import NavItem from "./NavItem/NavItem";
 import "./NavItems.css";
+import "./NavItem/NavItem.css";
 
 const NavItems = props => (
   <AuthContext.Consumer>
@@ -27,7 +28,7 @@ const NavItems = props => (
               </NavItem>
             </React.Fragment>
           )}
-          {context.token && (
+          {context.token && context.isAdmin() && (
             <React.Fragment>
               <NavItem link="/properties" exact>
                 Properties
@@ -35,9 +36,16 @@ const NavItems = props => (
               <NavItem link="/users" exact>
                 Users
               </NavItem>
+            </React.Fragment>
+          )}
+          {context.token && (
+            <React.Fragment>
               <NavItem link="/add-property" exact>
                 Add Property
               </NavItem>
+              <button onClick={context.logout} className="btn btn-danger">
+                Logout
+              </button>
             </React.Fragment>
           )}
         </ul>
