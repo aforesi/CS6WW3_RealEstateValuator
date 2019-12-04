@@ -1,3 +1,30 @@
 .AddProperty {
+  margin: 20px auto;
+  width: 80%;
   text-align: center;
+}
+
+form {
+  background-color: #f4f4f4;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  width: 25em;
+  margin: auto;
+}
+
+/*Desktop Only*/
+@media (max-width: 500px) {
+  .AddProperty {
+    margin: 20px auto;
+    width: 100%;
+    text-align: center;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+    width: 90%;
+    margin: auto;
+  }
 }

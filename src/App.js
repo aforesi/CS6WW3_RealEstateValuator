@@ -1,6 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Switch } from "react-router-dom";
+
+import AuthContext from "./Context/auth-context";
 
 import Layout from "./Components/Layout/Layout";
 import Calculator from "./Components/Calculator/Calculator";
@@ -12,23 +14,64 @@ import Properties from "./Components/Properties/ListProperties";
 import Users from "./Components/Users/Users";
 import AddProperty from "./Components/Properties/AddProperty/AddProperty";
 
-const App = () => {
-  return (
-    <div className="App">
-      <Layout>
-        <Switch>
-          <Route path="/calculator" component={Calculator} />
-          <Route path="/map" component={Map} />
-          <Route path="/register" component={Registeration} />
-          <Route path="/login" component={Login} />
-          <Route path="/properties" component={Properties} />
-          <Route path="/add-property" component={AddProperty} />
-          <Route path="/users" component={Users} />
-          <Route path="/" component={LandingPage} />
-        </Switch>
-      </Layout>
-    </div>
-  );
-};
+class App extends Component {
+  state = {
+    token: null,
+    userId: null
+  };
+
+  login = (token, userId, tokenExpiration) => {
+    this.setState({ token: token, userId: userId });
+  };
+
+  logout = () => {
+    this.setState({ token: null, userId: null });
+  };
+
+  isAdmin = () => {
+    if (this.state.userId && this.state.userId === "5de42d840a6a691620da316b")
+      return true;
+    else return false;
+  };
+
+  render() {
+    // Render sign up and sign in pages only user doesn't have a token (not logged in)
+    // Render properties, add property and users pages only when user has a token
+    return (
+      <div className="App">
+        <AuthContext.Provider
+          value={{
+            token: this.state.token,
+            userId: this.state.userId,
+            login: this.login,
+            logout: this.logout,
+            isAdmin: this.isAdmin
+          }}
+        >
+          <Layout>
+            <Switch>
+              <Route path="/calculator" component={Calculator} />
+              <Route path="/map" component={Map} />
+              {!this.state.token && (
+                <Route path="/register" component={Registeration} />
+              )}
+              <Route path="/login" component={Login} />
+              {this.state.token && this.isAdmin() && (
+                <Route path="/properties" component={Properties} />
+              )}
+              {this.state.token && (
+                <Route path="/add-property" component={AddProperty} />
+              )}
+              {this.state.token && this.isAdmin() && (
+                <Route path="/users" component={Users} />
+              )}
+              <Route path="/" component={LandingPage} />
+            </Switch>
+          </Layout>
+        </AuthContext.Provider>
+      </div>
+    );
+  }
+}
 
 export default App;

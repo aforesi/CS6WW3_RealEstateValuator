@@ -1,13 +1,26 @@
 const router = require("express").Router();
+const isAuth = require("../auth/isAuth");
 let Property = require("../models/property.model");
+// For authentication check
+router.use(isAuth);
 
+// Return all properties
 router.route("/").get((req, res) => {
+  // Auth token check
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
   Property.find()
     .then(properties => res.json(properties))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+// Add new property
 router.route("/add").post((req, res) => {
+  // Auth token check
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
   const yearBuilt = Number(req.body.yearBuilt);
   const stories = Number(req.body.stories);
   const bedrooms = Number(req.body.bedrooms);
@@ -48,25 +61,51 @@ router.route("/add").post((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+// Get one property with id
 router.route("/:id").get((req, res) => {
+  // Auth token check
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
   Property.findById(req.params.id)
     .then(property => res.json(property))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+// Delete a property with id
 router.route("/:id").delete((req, res) => {
+  // Auth token check
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
   Property.findByIdAndDelete(req.params.id)
     .then(() => res.json("Property deleted."))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+// Update a property with id
 router.route("/update/:id").post((req, res) => {
+  // Auth token check
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
   Property.findById(req.params.id)
     .then(property => {
-      property.username = req.body.username;
-      property.description = req.body.description;
-      property.duration = Number(req.body.duration);
-      property.date = Date.parse(req.body.date);
+      property.yearBuilt = Number(req.body.yearBuilt);
+      property.stories = Number(req.body.stories);
+      property.bedrooms = Number(req.body.bedrooms);
+      property.fullBathrooms = Number(req.body.fullBathrooms);
+      property.halfBathrooms = Number(req.body.halfBathrooms);
+      property.totalSquareFeet = Number(req.body.totalSquareFeet);
+      property.livableSquareFeet = Number(req.body.livableSquareFeet);
+      property.garageSquareFeet = Number(req.body.garageSquareFeet);
+      property.garageType = req.body.garageType;
+      property.fireplace = req.body.fireplace === "true";
+      property.pool = req.body.pool === "true";
+      property.centralHeating = req.body.centralHeating === "true";
+      property.centralCooling = req.body.centralCooling === "true";
+      property.latitude = parseFloat(req.body.latitude);
+      property.longitude = parseFloat(req.body.longitude);
 
       property
         .save()

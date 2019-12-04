@@ -21,6 +21,10 @@
   padding-bottom: 0;
 }
 
+img {
+  height: 3rem;
+}
+
 @media (max-width: 499px) {
   .DesktopOnly {
     display: none;
