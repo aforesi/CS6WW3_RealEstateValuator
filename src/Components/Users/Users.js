@@ -12,10 +12,10 @@ const User = props => (
     <td>{props.user.city}</td>
     <td>{props.user.isAgent}</td>
     <td>
-      <Link to={"/edit/" + props.user._id}>
+      {/* <Link to={"/edit/" + props.user._id}>
         <button className="btn btn-warning">Edit</button>
       </Link>{" "}
-      |{" "}
+      |{" "} */}
       <button
         className="btn btn-danger"
         onClick={() => {
