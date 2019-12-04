@@ -174,7 +174,7 @@ export default class AddProperty extends Component {
 
   render() {
     return (
-      <div>
+      <div className="AddProperty">
         <h3>Add new properties</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
