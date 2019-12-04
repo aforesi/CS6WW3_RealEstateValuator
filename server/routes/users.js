@@ -5,9 +5,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const isAuth = require("../auth/isAuth");
 let User = require("../models/user.model");
-
+// For authentication check
 router.use(isAuth);
-
+// For form validation
 router.use(expressValidator());
 
 // User list
@@ -18,6 +18,17 @@ router.route("/").get((req, res) => {
   }
   User.find()
     .then(users => res.json(users))
+    .catch(err => res.status(400).json("Error: " + err));
+});
+
+// Delete user
+router.route("/:id").delete((req, res) => {
+  // Check for authentication
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
+  User.findByIdAndDelete(req.params.id)
+    .then(() => res.json("User deleted."))
     .catch(err => res.status(400).json("Error: " + err));
 });
 
