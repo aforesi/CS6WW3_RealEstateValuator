@@ -17,6 +17,7 @@ const App = () => {
     <div className="App">
       <Layout>
         <Switch>
+          <Route path="/" component={LandingPage} exact />
           <Route path="/calculator" component={Calculator} />
           <Route path="/map" component={Map} />
           <Route path="/register" component={Registeration} />
@@ -24,7 +25,6 @@ const App = () => {
           <Route path="/properties" component={Properties} />
           <Route path="/add-property" component={AddProperty} />
           <Route path="/users" component={Users} />
-          <Route path="/" component={LandingPage} />
         </Switch>
       </Layout>
     </div>

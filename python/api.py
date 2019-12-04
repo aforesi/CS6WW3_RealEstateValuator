@@ -1,30 +1,26 @@
-from flask import Flask, request, redirect, url_for, flash, jsonify
+import sys
 import numpy as np
 import pickle as p
-import json
-from flask_cors import CORS
-
-app = Flask(__name__)
-CORS(app)
 
 
-@app.route('/api/', methods=['POST'])
-def makecalc():
+def calculatePrice(yearBuilt, stories, bedrooms, fullBathrooms, halfBathrooms, livableSqft, totalSqft, garageSqft, fireplace, pool, centralHeating, centralCooling):
+    model = p.load(open(model_file, 'rb'))
+
     house_to_value = [
         # House features
-        int(request.json['yearBuilt']),   # year_built
-        int(request.json['stories']),      # stories
-        int(request.json['bedrooms']),      # num_bedrooms
-        int(request.json['fullBathrooms']),      # full_bathrooms
-        int(request.json['halfBathrooms']),      # half_bathrooms
-        int(request.json['livableSquareFeet']),   # livable_sqft
-        int(request.json['totalSquareFeet']),   # total_sqft
-        int(request.json['garageSquareFeet']),    # garage_sqft
+        int(yearBuilt),   # year_built
+        int(stories),      # stories
+        int(bedrooms),      # num_bedrooms
+        int(fullBathrooms),      # full_bathrooms
+        int(halfBathrooms),      # half_bathrooms
+        int(livableSqft),   # livable_sqft
+        int(totalSqft),   # total_sqft
+        int(garageSqft),    # garage_sqft
         0,      # carport_sqft
-        request.json['fireplace'],   # has_fireplace
-        request.json['pool'],   # has_pool
-        request.json['centralHeating'],   # has_central_heating
-        request.json['centralCooling'],   # has_central_cooling
+        booleanStringToInt(fireplace),   # has_fireplace
+        booleanStringToInt(pool),   # has_pool
+        booleanStringToInt(centralHeating),   # has_central_heating
+        booleanStringToInt(centralCooling),   # has_central_cooling
         # Garage type: Choose only one
         0,      # attached
         1,      # detached
@@ -82,10 +78,34 @@ def makecalc():
         house_to_value
     ]
     prediction = np.array2string(model.predict(homes_to_value))
-    return jsonify(prediction.replace("[", "").replace("]", ""))
+    return prediction.replace("[", "").replace("]", "")
 
+def booleanStringToInt(strBool):
+    if(strBool == 'false'):
+        return 0
+    else:
+        return 1
 
 if __name__ == '__main__':
-    modelfile = 'model.pickle'
-    model = p.load(open(modelfile, 'rb'))
-    app.run(debug=True, host='localhost')
+    try:
+        model_file = 'model.pickle'
+    except FileReadException:
+        print ("Couldn't find or read the file")
+   
+    predictedValue = calculatePrice(
+        sys.argv[1],
+        sys.argv[2],
+        sys.argv[3],
+        sys.argv[4],
+        sys.argv[5],
+        sys.argv[6],
+        sys.argv[7],
+        sys.argv[8],
+        sys.argv[9],
+        sys.argv[10],
+        sys.argv[11],
+        sys.argv[12]
+    )
+    # Send results to node
+    print(str(predictedValue))
+    sys.stdout.flush()

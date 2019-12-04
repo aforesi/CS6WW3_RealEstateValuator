@@ -2,13 +2,17 @@
 import React from "react";
 import "./Map.css";
 import GoogleMapReact from 'google-map-react';
+import Marker from "../Marker/Marker";
 
-const Map = props => {
+
+const Map = ({predictedHomeInfo}) => {
+
   const center = {
-    lat: 43.2627604,
-    lng: -79.9198973
+    lat: predictedHomeInfo.lat,
+    lng: predictedHomeInfo.lng
   };
   const zoom = 14.5;
+  
 
   return (
       <div className="Map">
@@ -16,7 +20,14 @@ const Map = props => {
             bootstrapURLKeys={{ key: 'AIzaSyACmALJxFSXPsfcTmHGQR8Q2tuVyQUzWdg' }}
             defaultCenter={center}
             defaultZoom = {zoom}
-          ></GoogleMapReact>
+          >
+           <Marker 
+              lat={predictedHomeInfo.lat}
+              lng={predictedHomeInfo.lng}
+              name="house"
+              color="red"
+            />
+          </GoogleMapReact>
       </div>
   );
 };

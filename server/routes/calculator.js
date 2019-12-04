@@ -1,6 +1,8 @@
 const router = require("express").Router();
-const { PythonShell } = require("python-shell");
-let Property = require("../models/property.model");
+// const { PythonShell } = require("python-shell");
+// let Property = require("../models/property.model");
+const {PythonShell} = require("python-shell");
+const {resolve} = require('path');
 
 router.route("/").post((req, res) => {
   const yearBuilt = Number(req.body.yearBuilt);
@@ -16,23 +18,26 @@ router.route("/").post((req, res) => {
   const pool = req.body.pool;
   const centralHeating = req.body.centralHeating;
   const centralCooling = req.body.centralCooling;
+  console.log("latitude: ", req.body.lat);
+  console.log("longitude: ", req.body.lng);
 
-  // Could be useful if we want to save new property in DB
-  const newProperty = new Property({
-    yearBuilt,
-    stories,
-    bedrooms,
-    fullBathrooms,
-    halfBathrooms,
-    totalSquareFeet,
-    livableSquareFeet,
-    garageSquareFeet,
-    garageType,
-    fireplace,
-    pool,
-    centralHeating,
-    centralCooling
-  });
+
+  // // Could be useful if we want to save new property in DB
+  // const newProperty = new Property({
+  //   yearBuilt,
+  //   stories,
+  //   bedrooms,
+  //   fullBathrooms,
+  //   halfBathrooms,
+  //   totalSquareFeet,
+  //   livableSquareFeet,
+  //   garageSquareFeet,
+  //   garageType,
+  //   fireplace,
+  //   pool,
+  //   centralHeating,
+  //   centralCooling
+  // });
 
   let data = [
     yearBuilt,
@@ -48,50 +53,24 @@ router.route("/").post((req, res) => {
     centralHeating,
     centralCooling
   ];
-
-  // Python shell arguments and other options
+  
   var options = {
-    mode: "text",
-    pythonPath: "python",
-    pythonOptions: ["-u"],
-    scriptPath: "B:\\6WW3_Final\\python",
-    args: data
-  };
+    mode: 'text',
+    encoding: 'utf8',
+    pythonOptions: ['-u'],
+    scriptPath: resolve('../python'),
+    args: data,
+    pythonPath: 'python'
+  }
 
-  // Call python script
-  PythonShell.run("apiNode.py", options, function(err, result) {
-    if (err) {
-      console.log(err);
-      res.status(400).json("Error: Python couldn't return any data");
-    }
-    // Result is an array consisting of messages collected during execution
-    console.log("Result: %j", result);
-    // Check if python returned
-    if (result === null) {
-      res.status(400).json("Error: Python returned null data");
-    } else {
-      res.json(result);
-    }
+  PythonShell.run('api.py', options, function (err, results) {
+    if (err) throw err;
+    // results is an array consisting of messages collected during execution
+    console.log('results: %j', results);
+    res.json(results);
   });
+
 });
 
-// router.route("/").get(callD_alembert);
-
-// var options = {
-//   mode: "text",
-//   pythonPath: "python",
-//   pythonOptions: ["-u"],
-//   scriptPath: "B:\\6WW3_Final\\python",
-//   args: [2010, 1, 1, 1, 0, 400, 500, 100, 0, 0, 0, 0]
-// };
-
-// function callD_alembert(req, res) {
-//   PythonShell.run("apiNode.py", options, function(err, result) {
-//     if (err) throw err;
-//     // Result is an array consisting of messages collected during execution
-//     console.log("result: %j", result);
-//     res.json(result);
-//   });
-// }
 
 module.exports = router;

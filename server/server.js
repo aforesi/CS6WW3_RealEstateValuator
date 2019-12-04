@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const spawn = require("child_process").spawn;
 
 require("dotenv").config();
 
@@ -22,6 +23,8 @@ const propertiesRouter = require("./routes/properties");
 const usersRouter = require("./routes/users");
 const calculatorRouter = require("./routes/calculator");
 const mapRouter = require("./routes/map");
+
+// app.post('/calculator', (req, res) => res.send('Hello'));
 
 app.use("/properties", propertiesRouter);
 app.use("/users", usersRouter);
