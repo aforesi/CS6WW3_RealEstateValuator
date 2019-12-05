@@ -15,6 +15,24 @@ router.route("/").get((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
+// Return 10 closest properties by proximity
+router.route("/proximity").get((req, res) => {
+  Property.find(
+    {
+      loc:
+        { $near :
+           {
+             $geometry: { type: "Point",  coordinates: [ parseFloat(req.query.lng), parseFloat(req.query.lat) ] },
+             $maxDistance: 200
+           }
+        }
+    }
+ ).then(properties => res.json(properties))
+});
+
+
+
+
 // Add new property
 router.route("/add").post((req, res) => {
   // Auth token check

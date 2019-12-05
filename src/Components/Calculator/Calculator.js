@@ -59,6 +59,7 @@ const Calculator = props => {
               .catch(error => {
                 console.log(error);
               });
+
           }}
           render={({ handleSubmit, form, submitting, pristine }) => (
             <form onSubmit={handleSubmit}>

@@ -67,8 +67,12 @@ router.route("/").post((req, res) => {
     if (err) throw err;
     // results is an array consisting of messages collected during execution
     console.log('results: %j', results);
-    res.json(results);
+    // res.json(results);
   });
+
+  //Also return the top 10 closest houses by proximity
+  
+
 
 });
 

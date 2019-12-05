@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 
 const propertySchema = new Schema(
   {
+    _id: mongoose.Types.ObjectId,
     yearBuilt: { type: Number, required: true },
     stories: { type: Number, required: true },
     bedrooms: { type: Number, required: true },
@@ -18,8 +19,12 @@ const propertySchema = new Schema(
     centralHeating: { type: Boolean, required: true },
     centralCooling: { type: Boolean, required: true },
     latitude: { type: Number, required: true },
-    longitude: { type: Number, required: true }
+    longitude: { type: Number, required: true },
+    latitude: { type: Number, required: true},
+    longitude: { type: Number, required: true},
+    salePrice: { type: Number, required: false}
   },
+  
   {
     timestamps: true
   }
