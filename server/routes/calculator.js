@@ -18,9 +18,6 @@ router.route("/").post((req, res) => {
   const pool = req.body.pool;
   const centralHeating = req.body.centralHeating;
   const centralCooling = req.body.centralCooling;
-  console.log("latitude: ", req.body.lat);
-  console.log("longitude: ", req.body.lng);
-
 
   // // Could be useful if we want to save new property in DB
   // const newProperty = new Property({
@@ -66,12 +63,8 @@ router.route("/").post((req, res) => {
   PythonShell.run('api.py', options, function (err, results) {
     if (err) throw err;
     // results is an array consisting of messages collected during execution
-    console.log('results: %j', results);
-    // res.json(results);
+    res.json(results);
   });
-
-  //Also return the top 10 closest houses by proximity
-  
 
 
 });

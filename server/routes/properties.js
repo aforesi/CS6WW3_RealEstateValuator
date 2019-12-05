@@ -22,12 +22,14 @@ router.route("/proximity").get((req, res) => {
       loc:
         { $near :
            {
-             $geometry: { type: "Point",  coordinates: [ parseFloat(req.query.lng), parseFloat(req.query.lat) ] },
-             $maxDistance: 200
+              $geometry: { type: "Point",  coordinates: [ req.query.lng, req.query.lat ] },
+              $maxDistance: 300
            }
         }
     }
- ).then(properties => res.json(properties))
+ )
+ .then(properties => res.json(properties))
+ .catch(err => res.status(400).json("Error: " + err));
 });
 
 

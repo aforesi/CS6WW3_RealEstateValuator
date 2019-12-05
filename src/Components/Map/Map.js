@@ -5,7 +5,7 @@ import GoogleMapReact from 'google-map-react';
 import Marker from "../Marker/Marker";
 
 
-const Map = ({predictedHomeInfo}) => {
+const Map = ({predictedHomeInfo, proximalHouses}) => {
 
   const center = {
     lat: predictedHomeInfo.lat,
@@ -16,6 +16,21 @@ const Map = ({predictedHomeInfo}) => {
     lng: -79.5184843
   };
   const zoom = 14.5;
+  const markers = proximalHouses.map(house => {
+    if (!(predictedHomeInfo.address).includes(house.houseNumber + " " + house.streetName)) {
+      return (
+        <Marker 
+          key={house._id}
+          lat={house.loc.coordinates[1]}
+          lng={house.loc.coordinates[0]}
+          name="house"
+          color="blue"
+      />
+      )
+    } else {
+      return 0;
+    }
+  })
   
 
   return (
@@ -26,12 +41,14 @@ const Map = ({predictedHomeInfo}) => {
             center={center}
             defaultZoom = {zoom}
           >
+            
            <Marker 
               lat={predictedHomeInfo.lat}
               lng={predictedHomeInfo.lng}
               name="house"
               color="red"
             />
+            {markers}
           </GoogleMapReact>
       </div>
   );

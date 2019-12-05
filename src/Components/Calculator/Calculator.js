@@ -22,6 +22,7 @@ const Calculator = props => {
   const [submitted, setSubmitted] = useState(false);
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState({lat: null, lng: null});
+  const [proximalHouses, setProximalHouses] = useState([]);
   const ResultContainer = () => (
     <div className="ResultContainer">Estimated Value: <CurrencyFormat value={value} displayType={'text'} thousandSeparator={true} prefix={' $'} /></div>
   );
@@ -44,7 +45,8 @@ const Calculator = props => {
             centralHeating: false,
             centralCooling: false,
             lat: coordinates.lat,
-            lng: coordinates.lng
+            lng: coordinates.lng,
+            address: address
           }}
           onSubmit={async values => {
             setHouseInfo(values);
@@ -52,9 +54,18 @@ const Calculator = props => {
               .post("http://localhost:5000/calculator/", { ...values })
               .then(response => {
                 setValue(Math.round(parseFloat(response.data)));
-                // setValue(response.data);
                 setSubmitted(true);
-                console.log(response);
+              }).catch(error => {
+                console.log(error);
+              });
+            axios
+              .get("http://localhost:5000/properties/proximity", {
+                params: {
+                  lat: coordinates.lat,
+                  lng: coordinates.lng
+                }})
+              .then(response => {
+                setProximalHouses(response.data);
               })
               .catch(error => {
                 console.log(error);
@@ -222,7 +233,7 @@ const Calculator = props => {
           )}
         />
         {submitted ? <ResultContainer /> : undefined}
-        {submitted ? <Map predictedHomeInfo={houseInfo} /> : undefined}
+        {submitted ? <Map predictedHomeInfo={houseInfo} proximalHouses={proximalHouses} /> : undefined}
       </Styles>
     </div>
   );
