@@ -11,6 +11,10 @@ const Map = ({predictedHomeInfo}) => {
     lat: predictedHomeInfo.lat,
     lng: predictedHomeInfo.lng
   };
+  const defaultCenter = {
+    lat: 43.7181552,
+    lng: -79.5184843
+  };
   const zoom = 14.5;
   
 
@@ -18,7 +22,8 @@ const Map = ({predictedHomeInfo}) => {
       <div className="Map">
           <GoogleMapReact
             bootstrapURLKeys={{ key: 'AIzaSyACmALJxFSXPsfcTmHGQR8Q2tuVyQUzWdg' }}
-            defaultCenter={center}
+            defaultCenter={defaultCenter}
+            center={center}
             defaultZoom = {zoom}
           >
            <Marker 

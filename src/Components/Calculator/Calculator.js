@@ -6,6 +6,7 @@ import axios from "axios";
 import Styles from "../../Styles";
 import "./Calculator.css";
 import Map from "../Map/Map";
+import CurrencyFormat from 'react-currency-format';
 
 
 const Calculator = props => {
@@ -22,7 +23,7 @@ const Calculator = props => {
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState({lat: null, lng: null});
   const ResultContainer = () => (
-    <div className="ResultContainer">Estimated Value: {value}</div>
+    <div className="ResultContainer">Estimated Value: <CurrencyFormat value={value} displayType={'text'} thousandSeparator={true} prefix={' $'} /></div>
   );
 
   const handleSelect = async value => {
@@ -50,7 +51,8 @@ const Calculator = props => {
             axios
               .post("http://localhost:5000/calculator/", { ...values })
               .then(response => {
-                setValue(response.data);
+                setValue(Math.round(parseFloat(response.data)));
+                // setValue(response.data);
                 setSubmitted(true);
                 console.log(response);
               })
