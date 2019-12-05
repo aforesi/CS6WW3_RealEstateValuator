@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import AuthContext from "../../Context/auth-context";
 import "./ListProperties.css";
 
 const Property = props => (
@@ -38,6 +39,8 @@ const Property = props => (
 );
 
 export default class PropertyList extends Component {
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
 
@@ -47,8 +50,14 @@ export default class PropertyList extends Component {
   }
 
   componentDidMount() {
+    const token = this.context.token;
+
     axios
-      .get("http://localhost:5000/properties/")
+      .get("http://localhost:5000/properties/", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
       .then(response => {
         this.setState({ properties: response.data });
       })
@@ -58,9 +67,17 @@ export default class PropertyList extends Component {
   }
 
   deleteProperty(id) {
-    axios.delete("http://localhost:5000/properties/" + id).then(response => {
-      console.log(response.data);
-    });
+    const token = this.context.token;
+
+    axios
+      .delete("http://localhost:5000/properties/" + id, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
+      .then(response => {
+        console.log(response.data);
+      });
 
     this.setState({
       properties: this.state.properties.filter(el => el._id !== id)

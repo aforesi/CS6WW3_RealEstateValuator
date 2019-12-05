@@ -2,7 +2,7 @@ import React from "react";
 import "./Layout.css";
 import { ToolBar } from "../ToolBar/ToolBar";
 
-const Layoput = props => {
+const Layout = props => {
   return (
     <div>
       <ToolBar />
@@ -11,4 +11,4 @@ const Layoput = props => {
   );
 };
 
-export default Layoput;
+export default Layout;

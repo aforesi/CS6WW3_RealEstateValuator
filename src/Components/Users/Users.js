@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import axios from "axios";
+import AuthContext from "../../Context/auth-context";
 import "./Users.css";
 
 const User = props => (
@@ -11,10 +12,10 @@ const User = props => (
     <td>{props.user.city}</td>
     <td>{props.user.isAgent}</td>
     <td>
-      <Link to={"/edit/" + props.user._id}>
+      {/* <Link to={"/edit/" + props.user._id}>
         <button className="btn btn-warning">Edit</button>
       </Link>{" "}
-      |{" "}
+      |{" "} */}
       <button
         className="btn btn-danger"
         onClick={() => {
@@ -28,6 +29,8 @@ const User = props => (
 );
 
 export default class UserList extends Component {
+  static contextType = AuthContext;
+
   constructor(props) {
     super(props);
 
@@ -37,8 +40,14 @@ export default class UserList extends Component {
   }
 
   componentDidMount() {
+    const token = this.context.token;
+
     axios
-      .get("http://localhost:5000/users/")
+      .get("http://localhost:5000/users/", {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
       .then(response => {
         this.setState({ users: response.data });
       })
@@ -48,9 +57,16 @@ export default class UserList extends Component {
   }
 
   deleteUser(id) {
-    axios.delete("http://localhost:5000/users/" + id).then(response => {
-      console.log(response.data);
-    });
+    const token = this.context.token;
+    axios
+      .delete("http://localhost:5000/users/" + id, {
+        headers: {
+          Authorization: "Bearer " + token
+        }
+      })
+      .then(response => {
+        console.log(response.data);
+      });
 
     this.setState({
       users: this.state.users.filter(el => el._id !== id)

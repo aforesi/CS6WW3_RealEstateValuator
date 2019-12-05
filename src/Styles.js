@@ -140,6 +140,17 @@ export default styled.div`
     border-radius: 3px;
   }
 
+  .errorContainer,
+  .successContainer {
+    text-align: center;
+    font-weight: bold;
+  }
 
+  .errorContainer {
+    color: #ff0000;
+  }
 
+  .successContainer {
+    color: #00ff00;
+  }
 `;
