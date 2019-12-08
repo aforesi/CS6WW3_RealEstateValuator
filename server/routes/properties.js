@@ -15,7 +15,7 @@ router.route("/").get((req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 });
 
-// Return 10 closest properties by proximity
+// Return closest properties by proximity
 router.route("/proximity").get((req, res) => {
   Property.find(
     {

@@ -6,6 +6,7 @@ import axios from "axios";
 import Styles from "../../Styles";
 import "./Calculator.css";
 import Map from "../Map/Map";
+import Loading from "../Loading/Loading";
 import CurrencyFormat from 'react-currency-format';
 
 
@@ -18,11 +19,13 @@ const Calculator = props => {
   //   validators.reduce((error, validator) => error || validator(value), undefined)
 
   const [value, setValue] = useState(0);
-  const [houseInfo, setHouseInfo] = useState([]);
+  const [houseInfo, setHouseInfo] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [address, setAddress] = useState("");
   const [coordinates, setCoordinates] = useState({lat: null, lng: null});
   const [proximalHouses, setProximalHouses] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [amenities, setAmenities] = useState(null);
   const ResultContainer = () => (
     <div className="ResultContainer">Estimated Value: <CurrencyFormat value={value} displayType={'text'} thousandSeparator={true} prefix={' $'} /></div>
   );
@@ -33,6 +36,7 @@ const Calculator = props => {
     setAddress(value);
     setCoordinates(latLng);
   };
+
 
   return (
     <div className="Calculator">
@@ -46,14 +50,22 @@ const Calculator = props => {
             centralCooling: false,
             lat: coordinates.lat,
             lng: coordinates.lng,
-            address: address
+            address: address,
           }}
-          onSubmit={async values => {
+          onSubmit={
+            
+            async values => {
             setHouseInfo(values);
+            setLoading(true);
             axios
               .post("http://localhost:5000/calculator/", { ...values })
               .then(response => {
                 setValue(Math.round(parseFloat(response.data)));
+                const newHouseInfo = {
+                  ...values,
+                  calculatedValue: Math.round(parseFloat(response.data))
+                }
+                setHouseInfo(newHouseInfo);
                 setSubmitted(true);
               }).catch(error => {
                 console.log(error);
@@ -66,11 +78,30 @@ const Calculator = props => {
                 }})
               .then(response => {
                 setProximalHouses(response.data);
+                // setTimeout(() => {
+                //   setLoading(false);
+                // }, 1500)
+              })
+              .catch(error => {
+                console.log(error);
+              });
+            axios
+              .get("http://localhost:5000/amenities/proximity", {
+                params: {
+                  lat: coordinates.lat,
+                  lng: coordinates.lng
+                }})
+              .then(response => {
+                setAmenities(response.data);
+                setTimeout(() => {
+                  setLoading(false);
+                }, 1500)
               })
               .catch(error => {
                 console.log(error);
               });
 
+              
           }}
           render={({ handleSubmit, form, submitting, pristine }) => (
             <form onSubmit={handleSubmit}>
@@ -219,6 +250,7 @@ const Calculator = props => {
               </div>
               <div className="buttons">
                 <button type="submit" disabled={submitting}>
+                { loading && <i className="fa fa-refresh fa-spin"></i> }
                   Submit
                 </button>
                 <button
@@ -232,8 +264,9 @@ const Calculator = props => {
             </form>
           )}
         />
+        { loading && <Loading /> }
         {submitted ? <ResultContainer /> : undefined}
-        {submitted ? <Map predictedHomeInfo={houseInfo} proximalHouses={proximalHouses} /> : undefined}
+        {submitted ? <Map predictedHomeInfo={houseInfo} proximalHouses={proximalHouses} amenities={amenities} /> : undefined}
       </Styles>
     </div>
   );

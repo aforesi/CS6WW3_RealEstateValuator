@@ -23,6 +23,8 @@ const propertiesRouter = require("./routes/properties");
 const usersRouter = require("./routes/users");
 const calculatorRouter = require("./routes/calculator");
 const mapRouter = require("./routes/map");
+const amenitiesRouter = require("./routes/amenities");
+
 
 // app.post('/calculator', (req, res) => res.send('Hello'));
 
@@ -30,6 +32,8 @@ app.use("/properties", propertiesRouter);
 app.use("/users", usersRouter);
 app.use("/calculator", calculatorRouter);
 app.use("/map", mapRouter);
+app.use("/amenities", amenitiesRouter);
+
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
