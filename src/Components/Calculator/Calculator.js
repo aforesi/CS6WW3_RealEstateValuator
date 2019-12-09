@@ -29,7 +29,13 @@ const Calculator = props => {
   const ResultContainer = () => (
     <div className="ResultContainer">Estimated Value: <CurrencyFormat value={value} displayType={'text'} thousandSeparator={true} prefix={' $'} /></div>
   );
-
+  const LegendContainer = () => (
+    <div className="ResultContainer">
+      <p>Amenity: </p><div className="amenityMarker"></div>
+      <p>Calculated House: </p><div className="predictedMarker"></div>
+      <p>Comparable House: </p><div className="comparableMarker"></div>
+    </div>
+  );
   const handleSelect = async value => {
     const results = await geocodeByAddress(value);
     const latLng = await getLatLng(results[0]);
@@ -257,6 +263,7 @@ const Calculator = props => {
         { loading && <Loading /> }
         {submitted ? <ResultContainer /> : undefined}
         {submitted ? <Map predictedHomeInfo={houseInfo} proximalHouses={proximalHouses} amenities={amenities} /> : undefined}
+        {submitted ? <LegendContainer /> : undefined}
       </Styles>
     </div>
   );
