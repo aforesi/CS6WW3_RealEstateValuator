@@ -13,7 +13,7 @@ router.route("/proximity").get((req, res) => {
         { $near :
            {
               $geometry: { type: "Point",  coordinates: [ req.query.lng, req.query.lat ] },
-              $maxDistance: 600
+              $maxDistance: 1000
            }
         }
     }

@@ -1,6 +1,4 @@
 const router = require("express").Router();
-// const { PythonShell } = require("python-shell");
-// let Property = require("../models/property.model");
 const {PythonShell} = require("python-shell");
 const {resolve} = require('path');
 
@@ -10,7 +8,7 @@ router.route("/").post((req, res) => {
   const bedrooms = Number(req.body.bedrooms);
   const fullBathrooms = Number(req.body.fullBathrooms);
   const halfBathrooms = Number(req.body.halfBathrooms);
-  const totalSquareFeet = Number(req.body.totalSquareFeet);
+  // const totalSquareFeet = Number(req.body.totalSquareFeet);
   const livableSquareFeet = Number(req.body.livableSquareFeet);
   const garageSquareFeet = Number(req.body.garageSquareFeet);
   const garageType = req.body.garageType;
@@ -19,23 +17,6 @@ router.route("/").post((req, res) => {
   const centralHeating = req.body.centralHeating;
   const centralCooling = req.body.centralCooling;
 
-  // // Could be useful if we want to save new property in DB
-  // const newProperty = new Property({
-  //   yearBuilt,
-  //   stories,
-  //   bedrooms,
-  //   fullBathrooms,
-  //   halfBathrooms,
-  //   totalSquareFeet,
-  //   livableSquareFeet,
-  //   garageSquareFeet,
-  //   garageType,
-  //   fireplace,
-  //   pool,
-  //   centralHeating,
-  //   centralCooling
-  // });
-
   let data = [
     yearBuilt,
     stories,
@@ -43,8 +24,8 @@ router.route("/").post((req, res) => {
     fullBathrooms,
     halfBathrooms,
     livableSquareFeet,
-    totalSquareFeet,
     garageSquareFeet,
+    garageType,
     fireplace,
     pool,
     centralHeating,
@@ -62,7 +43,6 @@ router.route("/").post((req, res) => {
 
   PythonShell.run('api.py', options, function (err, results) {
     if (err) throw err;
-    // results is an array consisting of messages collected during execution
     res.json(results);
   });
 

@@ -67,22 +67,22 @@ const Registeration = props => {
                 />
               </div>
               <div className="formField">
-                <label>Password Again</label>
+                <label>Confirm Password</label>
                 <Field
                   name="password2"
                   component="input"
                   type="password"
-                  placeholder="Password Again"
+                  placeholder="Confirm Password"
                   required
                 />
               </div>
               <div className="formField">
-                <label>Name</label>
+                <label>First Name</label>
                 <Field
                   name="name"
                   component="input"
                   type="text"
-                  placeholder="Name"
+                  placeholder="First Name"
                 />
               </div>
               <div className="formField">

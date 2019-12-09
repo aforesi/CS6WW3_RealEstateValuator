@@ -1,5 +1,5 @@
  /* eslint-disable jsx-a11y/accessible-emoji */
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import "./Map.css";
 import GoogleMapReact from 'google-map-react';
 import Marker from "../Marker/Marker";
@@ -23,17 +23,18 @@ const Map = ({predictedHomeInfo, proximalHouses, amenities}) => {
   const [amenityInfo, setAmenityInfo] = useState(null);
   const [infoBoxCoordinates, setInfoBoxCoordinates] = useState(0);
   
-  const displayInfoBox = (status, lat, lng, address, bedrooms, bathrooms, squareFt) => {
+  const displayInfoBox = (status, lat, lng, address, bedrooms, bathrooms, squareFt, type, price) => {
     setInfoBoxCoordinates({
       lat: lat * 1.00005,
       lng: lng
     })
     setHouseInfo({
-      type: "house",
+      type: type,
       address: address,
       bedrooms: bedrooms,
       bathrooms: bathrooms,
-      squareFt: squareFt
+      squareFt: squareFt,
+      price: price
     })
     setHovered(status);
   }

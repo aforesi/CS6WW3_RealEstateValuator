@@ -110,26 +110,25 @@ const Calculator = props => {
                 onChange={setAddress}
                 onSelect={handleSelect}
               >
-                {({getInputProps, suggestions, getSuggestionItemProps, loading}) => (
-
+                {({getInputProps, suggestions, getSuggestionItemProps, loading}) => ( 
+                  <div>
+                    <label>Address</label>
+                    <input {...getInputProps({ placeholder: "Address"})} type="text" />
                     <div>
-                      <label>Address</label>
-                      <input {...getInputProps({ placeholder: "Address"})} type="text" />
-                      <div>
-                        {loading ? <div>...loading</div> : null}
+                      {loading ? <div>...loading</div> : null}
 
-                        {suggestions.map((suggestion) => {
-                          const style = {
-                            backgroundColor: suggestion.active ? "#41b6e6" : "#fff"
-                          }
-                          return (
-                            <div {...getSuggestionItemProps(suggestion, {style})}>
-                              {suggestion.description}
-                            </div>
-                          );
-                        })}
-                      </div>
+                      {suggestions.map((suggestion) => {
+                        const style = {
+                          backgroundColor: suggestion.active ? "#41b6e6" : "#fff"
+                        }
+                        return (
+                          <div {...getSuggestionItemProps(suggestion, {style})}>
+                            {suggestion.description}
+                          </div>
+                        );
+                      })}
                     </div>
+                  </div>
                 )}
               </PlacesAutocomplete>
               <Field name="yearBuilt" validate={required}>
@@ -182,15 +181,6 @@ const Calculator = props => {
                   <div>
                     <label>Livable Square Feet</label>
                     <input {...input} type="text" placeholder="Livable Square Feet" />
-                    {meta.error && meta.touched && <span>{meta.error}</span>}
-                  </div>
-                )}
-              </Field>
-              <Field name="totalSquareFeet" validate={required}>
-                {({ input, meta }) => (
-                  <div>
-                    <label>Total Square Feet</label>
-                    <input {...input} type="text" placeholder="Total Square Feet" />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}

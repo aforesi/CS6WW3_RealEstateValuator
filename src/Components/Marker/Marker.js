@@ -1,7 +1,5 @@
  /* eslint-disable jsx-a11y/accessible-emoji */
  import React, { useState} from "react";
-//  import "./Marker.css";
- import InfoBox from "../InfoBox/InfoBox";
  
  const Marker = (props) => {
     const { color, name, type, lat, lng, displayInfoBox, houseInfo, displayAmenityInfoBox} = props;
@@ -21,20 +19,16 @@
       transform: 'translate(-50%, -50%)',
       cursor: 'pointer'
     }
-
-    // var infoBox = {
-    //   display: false,
-    //   lat: lat,
-    //   lng: lng
-    // }
-
+   
     const mouseEnter = () => {
       setWidth('30px');
       setHeight('30px');
-      if (type == "amenity") {
+      if (type === "amenity") {
         displayAmenityInfoBox(true, lat, lng, name);
+      } else if (type === 'proximalHouse') {
+        displayInfoBox(true, lat, lng, name, houseInfo.bedrooms, parseInt(houseInfo.fullBathrooms) + parseInt(houseInfo.halfBathrooms), houseInfo.livableSquareFeet, "proximalHouse", houseInfo.salePrice);
       } else {
-        displayInfoBox(true, lat, lng, name, houseInfo.bedroom, houseInfo.fullBathrooms + houseInfo.halfBathrooms, houseInfo.livableSquareFeet);
+        displayInfoBox(true, lat, lng, name, houseInfo.bedrooms, parseInt(houseInfo.fullBathrooms) + parseInt(houseInfo.halfBathrooms), houseInfo.livableSquareFeet, "predictedHouse", houseInfo.calculatedValue);
       }
       
     }
@@ -42,7 +36,7 @@
     const mouseLeave = () => {
       setWidth('18px');
       setHeight('18px');
-      if (type == "amenity") {
+      if (type === "amenity") {
         displayAmenityInfoBox(false);
       } else {
         displayInfoBox(false);

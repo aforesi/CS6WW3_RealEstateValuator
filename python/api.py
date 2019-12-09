@@ -3,8 +3,20 @@ import numpy as np
 import pickle as p
 
 
-def calculatePrice(yearBuilt, stories, bedrooms, fullBathrooms, halfBathrooms, livableSqft, totalSqft, garageSqft, fireplace, pool, centralHeating, centralCooling):
+def calculatePrice(yearBuilt, stories, bedrooms, fullBathrooms, halfBathrooms, livableSqft, garageSqft, garageType, fireplace, pool, centralHeating, centralCooling):
     model = p.load(open(model_file, 'rb'))
+
+    attached = 0
+    detached = 0
+    none = 0
+
+    if garageType == 'attached':
+        attached = 1
+    elif garageType == 'detached':
+        detached = 1
+    else:
+        none = 1
+
 
     house_to_value = [
         # House features
@@ -14,7 +26,7 @@ def calculatePrice(yearBuilt, stories, bedrooms, fullBathrooms, halfBathrooms, l
         int(fullBathrooms),      # full_bathrooms
         int(halfBathrooms),      # half_bathrooms
         int(livableSqft),   # livable_sqft
-        int(totalSqft),   # total_sqft
+        livableSqft + garageSqft,   # total_sqft
         int(garageSqft),    # garage_sqft
         0,      # carport_sqft
         booleanStringToInt(fireplace),   # has_fireplace
@@ -22,11 +34,11 @@ def calculatePrice(yearBuilt, stories, bedrooms, fullBathrooms, halfBathrooms, l
         booleanStringToInt(centralHeating),   # has_central_heating
         booleanStringToInt(centralCooling),   # has_central_cooling
         # Garage type: Choose only one
-        0,      # attached
-        1,      # detached
-        0,      # none
+        attached,      # attached
+        detached,      # detached
+        none,      # none
         # City: Choose only one
-        0,      # Amystad
+        1,      # Amystad
         0,      # Brownport
         0,      # Chadstad
         0,      # Clarkberg
@@ -44,7 +56,7 @@ def calculatePrice(yearBuilt, stories, bedrooms, fullBathrooms, halfBathrooms, l
         0,      # Joshuafurt
         0,      # Julieberg
         0,      # Justinport
-        1,      # Lake Carolyn
+        0,      # Lake Carolyn
         0,      # Lake Christinaport
         0,      # Lake Dariusborough
         0,      # Lake Jack
