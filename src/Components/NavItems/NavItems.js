@@ -12,9 +12,9 @@ const NavItems = props => (
           <NavItem link="/" exact>
             Home
           </NavItem>
-          <NavItem link="/calculator" exact>
+          {/* <NavItem link="/calculator" exact>
             Calculator
-          </NavItem>
+          </NavItem> */}
           {/* <NavItem link="/map" exact>
             Map
           </NavItem> */}
@@ -30,6 +30,9 @@ const NavItems = props => (
           )}
           {context.token && context.isAdmin() && (
             <React.Fragment>
+              <NavItem link="/calculator" exact>
+                Calculator
+              </NavItem>
               <NavItem link="/properties" exact>
                 Properties
               </NavItem>

@@ -84,9 +84,6 @@ const Calculator = props => {
                 }})
               .then(response => {
                 setProximalHouses(response.data);
-                // setTimeout(() => {
-                //   setLoading(false);
-                // }, 1500)
               })
               .catch(error => {
                 console.log(error);

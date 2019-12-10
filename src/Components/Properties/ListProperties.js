@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../Context/auth-context";
 import "./ListProperties.css";
-import Loading from "../Loading/Loading";
+import CurrencyFormat from 'react-currency-format';
 
 const Property = props => (
   <tr>
@@ -21,6 +21,8 @@ const Property = props => (
     <td>{props.property.pool.toString()}</td>
     <td>{props.property.centralHeating.toString()}</td>
     <td>{props.property.centralCooling.toString()}</td>
+    <td><CurrencyFormat value={props.property.salePrice} displayType={'text'} thousandSeparator={true} prefix={' $'} /></td>
+    <td>{props.property.lastSaleDate.slice(0, 10)}</td>
     <td>
       <Link to={"/edit/" + props.property._id}>
         <button className="btn btn-warning">Edit</button>
@@ -154,16 +156,19 @@ export default class PropertyList extends Component {
               <th>Year Built</th>
               <th>Stories</th>
               <th>Bedrooms</th>
-              <th>Full Bathrooms</th>
-              <th>Half Bathrooms</th>
+              <th>Full Bath</th>
+              <th>Half Bath</th>
               <th>Total SqFt</th>
               <th>Livable SqFt</th>
               <th>Garage SqFt</th>
               <th>Garage Type</th>
               <th>Fireplace</th>
               <th>Pool</th>
-              <th>Central Heating</th>
-              <th>Central Cooling</th>
+              <th>Heating</th>
+              <th>Cooling</th>
+              <th>Last Sale Price</th>
+              <th>Last Sale Date</th>
+
               <th>Actions</th>
             </tr>
           </thead>

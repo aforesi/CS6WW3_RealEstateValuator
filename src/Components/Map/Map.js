@@ -23,7 +23,7 @@ const Map = ({predictedHomeInfo, proximalHouses, amenities}) => {
   const [amenityInfo, setAmenityInfo] = useState(null);
   const [infoBoxCoordinates, setInfoBoxCoordinates] = useState(0);
   
-  const displayInfoBox = (status, lat, lng, address, bedrooms, bathrooms, squareFt, type, price) => {
+  const displayInfoBox = (status, lat, lng, address, bedrooms, bathrooms, squareFt, type, price, lastSaleDate) => {
     setInfoBoxCoordinates({
       lat: lat * 1.00005,
       lng: lng
@@ -34,7 +34,8 @@ const Map = ({predictedHomeInfo, proximalHouses, amenities}) => {
       bedrooms: bedrooms,
       bathrooms: bathrooms,
       squareFt: squareFt,
-      price: price
+      price: price,
+      lastSaleDate: lastSaleDate
     })
     setHovered(status);
   }

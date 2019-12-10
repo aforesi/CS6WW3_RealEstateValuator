@@ -26,7 +26,7 @@
       infoBoxStyle.backgroundColor = '#f1f2a2';
       infoBoxStyle.borderRadius = '8px';
    } else if (info.type === "proximalHouse") {
-      infoBoxStyle.height = '150px';
+      infoBoxStyle.height = '180px';
       infoBoxStyle.backgroundColor = 'lightblue';
       infoBoxStyle.borderRadius = '10%';
    } else {
@@ -38,17 +38,18 @@
     if (info.type === "proximalHouse") {
       return (
         <div style={infoBoxStyle}>
-          <p>{info.address}</p>
+          <h6>{info.address}</h6>
           <p>Bedrooms: {info.bedrooms}</p>
           <p>Bathrooms: {info.bathrooms}</p>
           <p>Square ft.: {info.squareFt}</p>
           <p>Last sale price: <CurrencyFormat value={info.price} displayType={'text'} thousandSeparator={true} prefix={' $'} /></p>
+          <p>Last sale date: {info.lastSaleDate.slice(0, 10)}</p>
         </div>
       );
     } else if (info.type === "predictedHouse") {
       return (
         <div style={infoBoxStyle}>
-          <p>{info.address}</p>
+          <h6>{info.address}</h6>
           <p>Bedrooms: {info.bedrooms}</p>
           <p>Bathrooms: {info.bathrooms}</p>
           <p>Square ft.: {info.squareFt}</p>

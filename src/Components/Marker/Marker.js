@@ -26,7 +26,7 @@
       if (type === "amenity") {
         displayAmenityInfoBox(true, lat, lng, name);
       } else if (type === 'proximalHouse') {
-        displayInfoBox(true, lat, lng, name, houseInfo.bedrooms, parseInt(houseInfo.fullBathrooms) + parseInt(houseInfo.halfBathrooms), houseInfo.livableSquareFeet, "proximalHouse", houseInfo.salePrice);
+        displayInfoBox(true, lat, lng, name, houseInfo.bedrooms, parseInt(houseInfo.fullBathrooms) + parseInt(houseInfo.halfBathrooms), houseInfo.livableSquareFeet, "proximalHouse", houseInfo.salePrice, houseInfo.lastSaleDate);
       } else {
         displayInfoBox(true, lat, lng, name, houseInfo.bedrooms, parseInt(houseInfo.fullBathrooms) + parseInt(houseInfo.halfBathrooms), houseInfo.livableSquareFeet, "predictedHouse", houseInfo.calculatedValue);
       }

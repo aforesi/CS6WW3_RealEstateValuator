@@ -6,7 +6,7 @@ import AuthContext from "./Context/auth-context";
 
 import Layout from "./Components/Layout/Layout";
 import Calculator from "./Components/Calculator/Calculator";
-import Map from "./Components/Map/Map";
+// import Map from "./Components/Map/Map";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import Registeration from "./Components/Registeration/Registeration";
 import Login from "./Components/Login/Login";
@@ -50,8 +50,7 @@ class App extends Component {
         >
           <Layout>
             <Switch>
-              <Route path="/calculator" component={Calculator} />
-              <Route path="/map" component={Map} />
+              {/* <Route path="/map" component={Map} /> */}
               {!this.state.token && (
                 <Route path="/register" component={Registeration} />
               )}
@@ -61,6 +60,9 @@ class App extends Component {
               )}
               {this.state.token && (
                 <Route path="/add-property" component={AddProperty} />
+              )}
+              {this.state.token && (
+                <Route path="/calculator" component={Calculator} />
               )}
               {this.state.token && this.isAdmin() && (
                 <Route path="/users" component={Users} />
