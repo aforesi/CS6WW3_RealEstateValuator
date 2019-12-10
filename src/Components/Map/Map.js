@@ -40,14 +40,28 @@ const Map = ({predictedHomeInfo, proximalHouses, amenities}) => {
     setHovered(status);
   }
 
-  const displayAmenityInfoBox = (status, lat, lng, name) => {
+  function getDistanceFromHouse() {
+    var radians = Array.prototype.map.call(arguments, function(deg) { return deg/180.0 * Math.PI; });
+    var lat1 = radians[0], lon1 = radians[1], lat2 = radians[2], lon2 = radians[3];
+    var R = 6372.8; // km
+    var dLat = lat2 - lat1;
+    var dLon = lon2 - lon1;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat /2) + Math.sin(dLon / 2) * Math.sin(dLon /2) * Math.cos(lat1) * Math.cos(lat2);
+    var c = 2 * Math.asin(Math.sqrt(a));
+    var distance = Math.round((R * c) * 1000);
+    console.log("calculation: ", distance);
+    return distance;
+}
+
+  const displayAmenityInfoBox = (status, lat, lng, name) => {  
     setInfoBoxCoordinates({
       lat: lat * 1.00005,
       lng: lng
     })
     setAmenityInfo({
       type: "amenity",
-      name: name
+      name: name,
+      distance: getDistanceFromHouse(lat, lng, predictedHomeInfo.lat, predictedHomeInfo.lng)
     })
     setAmenityHovered(status);
   }
@@ -108,7 +122,7 @@ const Map = ({predictedHomeInfo, proximalHouses, amenities}) => {
             />
             {proximalHouseMarkers}
             {amenityMarkers}
-            {hovered ? <InfoBox lat={infoBoxCoordinates.lat} lng={infoBoxCoordinates.lng} info={houseInfo} /> : undefined}
+            {hovered ? <InfoBox lat={infoBoxCoordinates.lat} lng={infoBoxCoordinates.lng} info={houseInfo}  /> : undefined}
             {amenityHovered ? <InfoBox lat={infoBoxCoordinates.lat} lng={infoBoxCoordinates.lng} info={amenityInfo} /> : undefined}
             {/* {hovered ? <InfoBox lat={43.257980} lng={-79.917010} /> : undefined} */}
             {/* { hovered ? <Marker lat={43.257980} lng={-79.917010} name="test" color="red" toggleHover={toggleHover} type="predictedHouse"/> : undefined} */}

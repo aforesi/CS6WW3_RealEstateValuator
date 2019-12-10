@@ -1,9 +1,8 @@
 
  /* eslint-disable jsx-a11y/accessible-emoji */
- import React from "react";
+ import React, { useState } from "react";
  import CurrencyFormat from 'react-currency-format';
 
- 
  const InfoBox = (props) => {
    const {info} = props;
 
@@ -22,7 +21,7 @@
   }
 
    if (info.type === "amenity") {
-      infoBoxStyle.height = '50px';
+      infoBoxStyle.height = '70px';
       infoBoxStyle.backgroundColor = '#f1f2a2';
       infoBoxStyle.borderRadius = '8px';
    } else if (info.type === "proximalHouse") {
@@ -59,7 +58,8 @@
     } else {
       return (
         <div style={infoBoxStyle}>
-          <p>{info.name}</p>
+          <h6>{info.name}</h6>
+          <p>Distance: {info.distance} meters</p>
         </div>
       );   
     }
