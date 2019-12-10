@@ -8,14 +8,28 @@ router.use(isAuth);
 // Return all properties
 router.route("/").get((req, res) => {
   // Auth token check
-  if (!req.isAuth) {
+  if (!req.isAuth && parseInt(req.query.requestNum) === 0) {
     return res.status(403).json("Unauthenticated!");
   }
-  Property.find({})
+
+  if (parseInt(req.query.requestNum) === 0) {
+    Property.find({})
+    .sort({_id:1}).limit(50)
     .then((properties) => {
       res.json(properties);
     })
     .catch(err => res.status(400).json("Error: " + err));
+  } else {
+    Property.find({_id: {$gt: req.query.lastId}})
+    .sort({_id:1}).limit(50)
+    .then((properties) => {
+      res.json(properties);
+    })
+    .catch(err => res.status(400).json("Error: " + err));
+  }
+
+
+  
 });
 
 // Return closest properties by proximity

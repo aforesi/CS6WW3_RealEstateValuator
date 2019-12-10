@@ -1,3 +1,16 @@
 .ListProperties {
   text-align: center;
 }
+
+.loadMore {
+  margin-left: 50%;
+  margin-bottom: 15px;
+}
+
+.testLogo {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  left: 50%;
+  margin-left: -50px;
+}

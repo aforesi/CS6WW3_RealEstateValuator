@@ -47,29 +47,58 @@ export default class PropertyList extends Component {
 
     this.state = { 
       properties: [],
-      loading: true
-      
+      loading: true,
+      requestNum: 0,
+      lastId: null
     };
   }
 
-  componentDidMount() {
-    const token = this.context.token;
-
+  getHouses = () => {
     axios
       .get("http://localhost:5000/properties/", {
-        headers: {
-          Authorization: "Bearer " + token
+        params: {
+          requestNum: this.state.requestNum,
+          lastId: this.state.lastId
         }
       })
       .then(response => {
         this.setState({ 
-          properties: response.data,
-          loading: false
+          properties: [...this.state.properties, ...response.data],
+          loading: false,
+          requestNum: 1,
+          lastId: response.data[response.data.length-1]._id
         });
       })
       .catch(error => {
         console.log(error);
       });
+  }
+
+  componentDidMount() {
+    const token = this.context.token;
+    axios
+      .get("http://localhost:5000/properties/", {
+        headers: {
+          Authorization: "Bearer " + token
+        },
+        params: {
+          requestNum: this.state.requestNum,
+          lastId: this.state.lastId
+        }
+      })
+      .then(response => {
+        this.setState({ 
+          properties: response.data,
+          loading: false,
+          requestNum: this.state.requestNum += 1,
+          lastId: response.data[response.data.length-1]._id
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
+    
   }
 
   deleteProperty(id) {
@@ -102,10 +131,16 @@ export default class PropertyList extends Component {
     });
   }
 
+
   render() {
     return (
       <div>
-      { this.state.loading && <Loading /> }
+      { this.state.loading && 
+        <div className="testLogo">  
+          <h1><i className="fa fa-refresh fa-spin"></i></h1>
+        </div>
+      }
+
         <h3>Properties</h3>
         <Link to="/add-property">
           <button className="btn btn-primary" type="button">
@@ -134,6 +169,13 @@ export default class PropertyList extends Component {
           </thead>
           <tbody>{this.propertyList()}</tbody>
         </table>
+        { !this.state.loading && 
+        <div className="loadMore">
+          <button onClick={this.getHouses} className="btn btn-primary" type="button">
+              Load More...
+          </button>
+        </div>
+        }
       </div>
     );
   }
