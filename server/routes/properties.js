@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const isAuth = require("../auth/isAuth");
 let Property = require("../models/property.model");
+let CalculatedProperty = require("../models/calculatedProperty.model");
 // For authentication check
 router.use(isAuth);
 
@@ -10,8 +11,10 @@ router.route("/").get((req, res) => {
   if (!req.isAuth) {
     return res.status(403).json("Unauthenticated!");
   }
-  Property.find()
-    .then(properties => res.json(properties))
+  Property.find({})
+    .then((properties) => {
+      res.json(properties);
+    })
     .catch(err => res.status(400).json("Error: " + err));
 });
 
@@ -46,7 +49,6 @@ router.route("/add").post((req, res) => {
   const bedrooms = Number(req.body.bedrooms);
   const fullBathrooms = Number(req.body.fullBathrooms);
   const halfBathrooms = Number(req.body.halfBathrooms);
-  const totalSquareFeet = Number(req.body.totalSquareFeet);
   const livableSquareFeet = Number(req.body.livableSquareFeet);
   const garageSquareFeet = Number(req.body.garageSquareFeet);
   const garageType = req.body.garageType;
@@ -57,13 +59,12 @@ router.route("/add").post((req, res) => {
   const latitude = parseFloat(req.body.latitude);
   const longitude = parseFloat(req.body.longitude);
 
-  const newProperty = new Property({
+  const newProperty = new CalculatedProperty({
     yearBuilt,
     stories,
     bedrooms,
     fullBathrooms,
     halfBathrooms,
-    totalSquareFeet,
     livableSquareFeet,
     garageSquareFeet,
     garageType,

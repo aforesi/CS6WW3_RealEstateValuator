@@ -28,7 +28,7 @@ const Registeration = props => {
                   console.log("Error!");
                 } else {
                   setClassName("successContainer resultContainer");
-                  console.log("Success!");
+                  // console.log("Success!");
                 }
                 setValue(response.data.message);
                 setSubmitted(true);

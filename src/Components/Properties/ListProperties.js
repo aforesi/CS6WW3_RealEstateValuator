@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../Context/auth-context";
 import "./ListProperties.css";
+import Loading from "../Loading/Loading";
 
 const Property = props => (
   <tr>
+    <td>{props.property.houseNumber} {props.property.streetName}</td>
     <td>{props.property.yearBuilt}</td>
     <td>{props.property.stories}</td>
     <td>{props.property.bedrooms}</td>
@@ -15,12 +17,10 @@ const Property = props => (
     <td>{props.property.livableSquareFeet}</td>
     <td>{props.property.garageSquareFeet}</td>
     <td>{props.property.garageType}</td>
-    <td>{props.property.fireplace}</td>
-    <td>{props.property.pool}</td>
-    <td>{props.property.centralHeating}</td>
-    <td>{props.property.centralCooling}</td>
-    <td>{props.property.latitude}</td>
-    <td>{props.property.longitude}</td>
+    <td>{props.property.fireplace.toString()}</td>
+    <td>{props.property.pool.toString()}</td>
+    <td>{props.property.centralHeating.toString()}</td>
+    <td>{props.property.centralCooling.toString()}</td>
     <td>
       <Link to={"/edit/" + props.property._id}>
         <button className="btn btn-warning">Edit</button>
@@ -40,13 +40,16 @@ const Property = props => (
 
 export default class PropertyList extends Component {
   static contextType = AuthContext;
-
   constructor(props) {
     super(props);
 
     this.deleteProperty = this.deleteProperty.bind(this);
 
-    this.state = { properties: [] };
+    this.state = { 
+      properties: [],
+      loading: true
+      
+    };
   }
 
   componentDidMount() {
@@ -59,7 +62,10 @@ export default class PropertyList extends Component {
         }
       })
       .then(response => {
-        this.setState({ properties: response.data });
+        this.setState({ 
+          properties: response.data,
+          loading: false
+        });
       })
       .catch(error => {
         console.log(error);
@@ -99,6 +105,7 @@ export default class PropertyList extends Component {
   render() {
     return (
       <div>
+      { this.state.loading && <Loading /> }
         <h3>Properties</h3>
         <Link to="/add-property">
           <button className="btn btn-primary" type="button">
@@ -108,6 +115,7 @@ export default class PropertyList extends Component {
         <table className="table">
           <thead className="thead-light">
             <tr>
+              <th>Address</th>
               <th>Year Built</th>
               <th>Stories</th>
               <th>Bedrooms</th>
@@ -121,8 +129,7 @@ export default class PropertyList extends Component {
               <th>Pool</th>
               <th>Central Heating</th>
               <th>Central Cooling</th>
-              <th>Latitude</th>
-              <th>Longitude</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>{this.propertyList()}</tbody>

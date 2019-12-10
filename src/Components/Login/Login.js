@@ -51,7 +51,7 @@ class Login extends Component {
                     console.log("Error!");
                   } else {
                     this.setClassName("successContainer resultContainer");
-                    console.log("Success!");
+                    // console.log("Success!");
                   }
                   this.setValue(response.data.message);
                   this.setSubmitted(true);

@@ -13,7 +13,7 @@ const geoSchema = new Schema({
   }
 })
 
-const propertySchema = new Schema(
+const calculatedPropertySchema = new Schema(
   {
     _id: mongoose.Types.ObjectId,
     yearBuilt: { type: Number, required: true },
@@ -32,11 +32,12 @@ const propertySchema = new Schema(
     loc: geoSchema,
     salePrice: { type: Number, required: false}
   },
+  
   {
     timestamps: true
   }
 );
 
-const Property = mongoose.model("Property", propertySchema);
+const CalculatedProperty = mongoose.model("CalculatedProperty", calculatedPropertySchema);
 
-module.exports = Property;
+module.exports = CalculatedProperty;
