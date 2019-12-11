@@ -1,6 +1,6 @@
 
  /* eslint-disable jsx-a11y/accessible-emoji */
- import React, { useState } from "react";
+ import React from "react";
  import CurrencyFormat from 'react-currency-format';
 
  const InfoBox = (props) => {

@@ -11,6 +11,7 @@ import LandingPage from "./Components/LandingPage/LandingPage";
 import Registeration from "./Components/Registeration/Registeration";
 import Login from "./Components/Login/Login";
 import Properties from "./Components/Properties/ListProperties";
+import CalculatedProperties from "./Components/Properties/CalculatedProperties";
 import Users from "./Components/Users/Users";
 import AddProperty from "./Components/Properties/AddProperty/AddProperty";
 
@@ -22,7 +23,6 @@ class App extends Component {
 
   login = (token, userId, tokenExpiration) => {
     this.setState({ token: token, userId: userId });
-    console.log("userid: ", userId);
   };
 
   logout = () => {
@@ -58,6 +58,9 @@ class App extends Component {
               <Route path="/login" component={Login} />
               {this.state.token && this.isAdmin() && (
                 <Route path="/properties" component={Properties} />
+              )}
+              {this.state.token && this.isAdmin() && (
+                <Route path="/calculatedProperties" component={CalculatedProperties} />
               )}
               {this.state.token && (
                 <Route path="/add-property" component={AddProperty} />

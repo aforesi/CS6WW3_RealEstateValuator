@@ -8,11 +8,9 @@ import "./Calculator.css";
 import Map from "../Map/Map";
 import Loading from "../Loading/Loading";
 import CurrencyFormat from 'react-currency-format';
-import AuthContext from "../../Context/auth-context";
 
 
 const Calculator = props => {
-  // console.log("userId: ", this.props.match.params.userId);
   const required = value => (value ? undefined : 'Required')
   // const mustBeNumber = value => (isNaN(value) ? 'Must be a number' : undefined)
   // const minValue = min => value =>

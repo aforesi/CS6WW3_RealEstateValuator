@@ -36,6 +36,9 @@ const NavItems = props => (
               <NavItem link="/properties" exact>
                 Properties
               </NavItem>
+              <NavItem link="/calculatedProperties" exact>
+                Calculated Properties
+              </NavItem>
               <NavItem link="/users" exact>
                 Users
               </NavItem>

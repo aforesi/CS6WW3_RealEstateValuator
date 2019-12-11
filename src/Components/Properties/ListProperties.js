@@ -49,7 +49,6 @@ export default class PropertyList extends Component {
 
     this.state = { 
       properties: [],
-      calculatedProperties: [],
       loading: true,
       requestNum: 0,
       lastId: null
@@ -90,37 +89,17 @@ export default class PropertyList extends Component {
         }
       })
       .then(response => {
+        const currentRequest = this.state.requestNum;
         this.setState({ 
           properties: response.data,
-          requestNum: this.state.requestNum += 1,
-          lastId: response.data[response.data.length-1]._id
-        });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-      axios
-      .get("http://localhost:5000/properties/calculatedProperties", {
-        headers: {
-          Authorization: "Bearer " + token
-        },
-        params: {
-          requestNum: this.state.requestNum,
-          lastId: this.state.lastId
-        }
-      })
-      .then(response => {
-        this.setState({ 
-          calculatedProperties: response.data,
+          requestNum: currentRequest + 1,
+          lastId: response.data[response.data.length-1]._id,
           loading: false
         });
-        console.log("calced props: ", this.state.calculatedProperties);
       })
       .catch(error => {
         console.log(error);
       });
-
     
   }
 
@@ -154,11 +133,6 @@ export default class PropertyList extends Component {
     });
   }
 
-  displayCalculatedProperties () {
-    console.log("test");
-  }
-
-
   render() {
     return (
       <div>
@@ -174,9 +148,6 @@ export default class PropertyList extends Component {
             Add New Property
           </button>
         </Link>
-          <button onClick={this.displayCalculatedProperties} className="btn btn-primary" type="button">
-            View Your Properties
-          </button>
         <table className="table">
           <thead className="thead-light">
             <tr>
@@ -196,7 +167,6 @@ export default class PropertyList extends Component {
               <th>Cooling</th>
               <th>Last Sale Price</th>
               <th>Last Sale Date</th>
-
               <th>Actions</th>
             </tr>
           </thead>

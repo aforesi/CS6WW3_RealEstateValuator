@@ -33,7 +33,7 @@ router.route("/").get((req, res) => {
 });
 
 // Return all calculated properties
-router.route("/calculatedProperties").get((req, res) => {
+router.route("/predictedProperties").get((req, res) => {
   // Auth token check
   if (!req.isAuth) {
     return res.status(403).json("Unauthenticated!");

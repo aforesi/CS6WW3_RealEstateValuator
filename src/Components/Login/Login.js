@@ -55,7 +55,6 @@ class Login extends Component {
                   }
                   this.setValue(response.data.message);
                   this.setSubmitted(true);
-                  console.log(response);
                   return response;
                 })
                 .then(response => {
