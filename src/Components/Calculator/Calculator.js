@@ -8,9 +8,11 @@ import "./Calculator.css";
 import Map from "../Map/Map";
 import Loading from "../Loading/Loading";
 import CurrencyFormat from 'react-currency-format';
+import AuthContext from "../../Context/auth-context";
 
 
 const Calculator = props => {
+  // console.log("userId: ", this.props.match.params.userId);
   const required = value => (value ? undefined : 'Required')
   // const mustBeNumber = value => (isNaN(value) ? 'Must be a number' : undefined)
   // const minValue = min => value =>
@@ -43,7 +45,6 @@ const Calculator = props => {
     setCoordinates(latLng);
   };
 
-
   return (
     <div className="Calculator">
       <h1>Calculator</h1>
@@ -66,13 +67,29 @@ const Calculator = props => {
             axios
               .post("http://localhost:5000/calculator/", { ...values })
               .then(response => {
-                setValue(Math.round(parseFloat(response.data)));
                 const newHouseInfo = {
                   ...values,
                   calculatedValue: Math.round(parseFloat(response.data))
                 }
                 setHouseInfo(newHouseInfo);
                 setSubmitted(true);
+                setValue(Math.round(parseFloat(response.data)));
+
+                const calculatedValue = Math.round(parseFloat(response.data));
+
+                // ...values, calculatedValue
+
+                axios
+                .post("http://localhost:5000/properties/addCalculatedProperty",  {
+                  ...values,
+                  calculatedValue
+                } )
+                .then(response => {
+                  
+                }).catch(error => {
+                  console.log(error);
+                });
+
               }).catch(error => {
                 console.log(error);
               });
@@ -103,6 +120,8 @@ const Calculator = props => {
               .catch(error => {
                 console.log(error);
               });
+
+
 
               
           }}
@@ -184,6 +203,15 @@ const Calculator = props => {
                   <div>
                     <label>Livable Square Feet</label>
                     <input {...input} type="text" placeholder="Livable Square Feet" />
+                    {meta.error && meta.touched && <span>{meta.error}</span>}
+                  </div>
+                )}
+              </Field>
+              <Field name="totalSquareFeet" validate={required}>
+                {({ input, meta }) => (
+                  <div>
+                    <label>Total Square Feet</label>
+                    <input {...input} type="text" placeholder="Total Square Feet" />
                     {meta.error && meta.touched && <span>{meta.error}</span>}
                   </div>
                 )}

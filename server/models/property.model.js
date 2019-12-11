@@ -29,7 +29,7 @@ const propertySchema = new Schema(
     pool: { type: Boolean, required: true },
     centralHeating: { type: Boolean, required: true },
     centralCooling: { type: Boolean, required: true },
-    loc: geoSchema,
+    // loc: geoSchema,
     salePrice: { type: Number, required: false}
   },
   {

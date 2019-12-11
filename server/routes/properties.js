@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const isAuth = require("../auth/isAuth");
 let Property = require("../models/property.model");
-let CalculatedProperty = require("../models/calculatedProperty.model");
+let Prediction = require("../models/prediction.model");
 // For authentication check
 router.use(isAuth);
 
@@ -32,6 +32,19 @@ router.route("/").get((req, res) => {
   
 });
 
+// Return all calculated properties
+router.route("/calculatedProperties").get((req, res) => {
+  // Auth token check
+  if (!req.isAuth) {
+    return res.status(403).json("Unauthenticated!");
+  }
+  Prediction.find({})
+  .then((calculatedProperties) => {
+    res.json(calculatedProperties);
+  })
+  .catch(err => res.status(400).json("Error: " + err));  
+});
+
 // Return closest properties by proximity
 router.route("/proximity").get((req, res) => {
   Property.find(
@@ -50,51 +63,48 @@ router.route("/proximity").get((req, res) => {
 });
 
 
+router.route('/addCalculatedProperty').post((req, res) => {
 
-
-// Add new property
-router.route("/add").post((req, res) => {
-  // Auth token check
-  if (!req.isAuth) {
-    return res.status(403).json("Unauthenticated!");
-  }
-  const yearBuilt = Number(req.body.yearBuilt);
-  const stories = Number(req.body.stories);
-  const bedrooms = Number(req.body.bedrooms);
-  const fullBathrooms = Number(req.body.fullBathrooms);
-  const halfBathrooms = Number(req.body.halfBathrooms);
-  const livableSquareFeet = Number(req.body.livableSquareFeet);
-  const garageSquareFeet = Number(req.body.garageSquareFeet);
+  const yearBuilt = req.body.yearBuilt;
+  const stories = req.body.stories;
+  const bedrooms = req.body.bedrooms;
+  const fullBathrooms = req.body.fullBathrooms;
+  const halfBathrooms = req.body.halfBathrooms;
+  const livableSquareFeet = req.body.livableSquareFeet;
+  const garageSquareFeet = req.body.garageSquareFeet;
+  const totalSquareFeet = req.body.totalSquareFeet;
   const garageType = req.body.garageType;
-  const fireplace = req.body.fireplace === "true";
-  const pool = req.body.pool === "true";
-  const centralHeating = req.body.centralHeating === "true";
-  const centralCooling = req.body.centralCooling === "true";
-  const latitude = parseFloat(req.body.latitude);
-  const longitude = parseFloat(req.body.longitude);
+  const address = req.body.address;
+  const fireplace = req.body.fireplace;
+  const pool = req.body.pool;
+  const centralHeating = req.body.centralHeating;
+  const centralCooling = req.body.centralCooling;
+  const salePrice = req.body.calculatedValue;
 
-  const newProperty = new CalculatedProperty({
+  const newPrediction = new Prediction({
     yearBuilt,
+    address,
     stories,
     bedrooms,
     fullBathrooms,
     halfBathrooms,
     livableSquareFeet,
+    totalSquareFeet,
     garageSquareFeet,
     garageType,
     fireplace,
     pool,
     centralHeating,
     centralCooling,
-    latitude,
-    longitude
+    salePrice
   });
 
-  newProperty
-    .save()
-    .then(() => res.json("Property added!"))
-    .catch(err => res.status(400).json("Error: " + err));
-});
+    newPrediction.save()
+    .then(prediction => res.send(prediction)).catch(err => res.status(400).json("Error: " + err));
+
+  
+})
+
 
 // Get one property with id
 router.route("/:id").get((req, res) => {

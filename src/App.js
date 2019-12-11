@@ -22,6 +22,7 @@ class App extends Component {
 
   login = (token, userId, tokenExpiration) => {
     this.setState({ token: token, userId: userId });
+    console.log("userid: ", userId);
   };
 
   logout = () => {
