@@ -36,7 +36,8 @@ const NavItems = props => (
               <NavItem link="/properties" exact>
                 Properties
               </NavItem>
-              <NavItem link="/calculatedProperties" exact>
+              {/* UserID can be found in context.userId, pass this as a url parameter */}
+              <NavItem link="/calculatedProperties">
                 Calculated Properties
               </NavItem>
               <NavItem link="/users" exact>

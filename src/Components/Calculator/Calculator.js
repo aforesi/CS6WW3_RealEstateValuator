@@ -11,13 +11,14 @@ import CurrencyFormat from 'react-currency-format';
 
 
 const Calculator = props => {
+
   const required = value => (value ? undefined : 'Required')
   // const mustBeNumber = value => (isNaN(value) ? 'Must be a number' : undefined)
   // const minValue = min => value =>
   //   isNaN(value) || value >= min ? undefined : `Should be greater than ${min}`
   // const composeValidators = (...validators) => value =>
   //   validators.reduce((error, validator) => error || validator(value), undefined)
-
+  const userId = props.userId;
   const [value, setValue] = useState(0);
   const [houseInfo, setHouseInfo] = useState(null);
   const [submitted, setSubmitted] = useState(false);
@@ -80,7 +81,8 @@ const Calculator = props => {
                 axios
                 .post("http://localhost:5000/properties/addCalculatedProperty",  {
                   ...values,
-                  calculatedValue
+                  calculatedValue,
+                  userId
                 } )
                 .then(response => {
                   

@@ -2,6 +2,8 @@ const router = require("express").Router();
 const isAuth = require("../auth/isAuth");
 let Property = require("../models/property.model");
 let Prediction = require("../models/prediction.model");
+const mongoose = require("mongoose");
+
 // For authentication check
 router.use(isAuth);
 
@@ -38,7 +40,7 @@ router.route("/predictedProperties").get((req, res) => {
   if (!req.isAuth) {
     return res.status(403).json("Unauthenticated!");
   }
-  Prediction.find({})
+  Prediction.find({"userId": mongoose.Types.ObjectId(req.query.userId)})
   .then((calculatedProperties) => {
     res.json(calculatedProperties);
   })
@@ -80,6 +82,7 @@ router.route('/addCalculatedProperty').post((req, res) => {
   const centralHeating = req.body.centralHeating;
   const centralCooling = req.body.centralCooling;
   const salePrice = req.body.calculatedValue;
+  const userId = req.body.userId;
 
   const newPrediction = new Prediction({
     yearBuilt,
@@ -96,7 +99,8 @@ router.route('/addCalculatedProperty').post((req, res) => {
     pool,
     centralHeating,
     centralCooling,
-    salePrice
+    salePrice,
+    userId
   });
 
     newPrediction.save()

@@ -31,7 +31,8 @@ const predictionSchema = new Schema(
     centralHeating: { type: Boolean, required: false },
     centralCooling: { type: Boolean, required: false },
     // loc: geoSchema,
-    salePrice: { type: String, required: false}
+    salePrice: { type: String, required: false},
+    userId: { type: mongoose.Types.ObjectId, required: false}
   },
   
   {

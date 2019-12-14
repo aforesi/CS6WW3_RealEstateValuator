@@ -60,13 +60,13 @@ class App extends Component {
                 <Route path="/properties" component={Properties} />
               )}
               {this.state.token && this.isAdmin() && (
-                <Route path="/calculatedProperties" component={CalculatedProperties} />
+                <Route path="/calculatedProperties" render={(props) => <CalculatedProperties {...props} userId={this.state.userId} />} />
               )}
               {this.state.token && (
                 <Route path="/add-property" component={AddProperty} />
               )}
               {this.state.token && (
-                <Route path="/calculator" component={Calculator} />
+                <Route path="/calculator" render={(props) => <Calculator {...props} userId={this.state.userId} />} />
               )}
               {this.state.token && this.isAdmin() && (
                 <Route path="/users" component={Users} />

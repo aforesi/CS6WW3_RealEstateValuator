@@ -5,6 +5,9 @@ import "./ListProperties.css";
 import CurrencyFormat from 'react-currency-format';
 
 const CalculatedProperty = props => (
+
+
+
   <tr>
     <td>{props.property.address}</td>
     <td>{props.property.yearBuilt}</td>
@@ -38,9 +41,12 @@ export default class PropertyList extends Component {
 
   componentDidMount() {
     const token = this.context.token;
-    
+
       axios
       .get("http://localhost:5000/properties/predictedProperties", {
+        params: {
+          userId: this.props.userId
+        },
         headers: {
           Authorization: "Bearer " + token
         }
